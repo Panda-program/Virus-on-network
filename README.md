@@ -1,2 +1,2 @@
 # Virus-on-network
-Semafor
+## Skupina Semafor
