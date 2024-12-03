@@ -1,12 +1,12 @@
-import tkinter as tk
-
 class Node (object):
-    def __init__(self, x: 'int', y: 'int', infected: 'bool'):
+    def __init__(self, canvas, x: 'int', y: 'int', infected: 'bool'):
+        self.width = 40
+        self.canvas = canvas
         self.x = x
         self.y = y
         self.infected = infected
         self.neighbors = []
-        self.circle = tk.Canvas.create_oval(x, y, x+10, y+10, fill="red" if infected else "blue")
+        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if infected else "blue")
 
     def createConnection(self, neighbor: 'Node'):
         if neighbor not in self.neighbors:
@@ -15,5 +15,5 @@ class Node (object):
     
     def infect(self):
         self.infected = True
-        tk.Canvas.itemconfig(self.circle, fill="red")
+        self.canvas.itemconfig(self.circle, fill="red")
     
