@@ -1,3 +1,4 @@
+import random
 class Node (object):
     def __init__(self, canvas, x: 'int', y: 'int', infected: 'bool'):
         self.width = 35
@@ -5,15 +6,47 @@ class Node (object):
         self.x = x
         self.y = y
         self.infected = infected
-        self.neighbors = []
+        self.connections = []
+        self.id = random.randint(0, 100000)
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if infected else "blue")
-
+        
+        if (infected):
+            self.state = State.INFECTED
+        else:
+            self.state = State.SUSCEPTIBLE
+        
     def createConnection(self, neighbor: 'Node'):
-        if neighbor not in self.neighbors:
-            self.neighbors.append(neighbor)
-            neighbor.add_neighbor(self)
-    
+        if (neighbor not in self.connections):
+            self.connections.append(Connection(self, neighbor, self.canvas))
+            
     def infect(self):
-        self.infected = True
+        self.state = State.INFECTED
+        for connection in self.connections:
+            if (connection.hasNode(self)):
+                connection.setInfected()
         self.canvas.itemconfig(self.circle, fill="red")
+        
+class Connection (object):
+    def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
+        self.node1 = node1
+        self.node2 = node2
+        self.canvas = canvas
+        self.connectionLine = self.canvas.create_line(node1.x + node1.width / 2, node1.y + node1.width / 2, node2.x + node2.width / 2, node2.y + node2.width / 2)
+        
+    def hasNode(self, node: 'Node'):
+        return node == self.node1 or node == self.node2
     
+    def getConnectionLine(self):
+        return self.connectionLine
+    
+    def setInfected(self):
+        self.canvas.itemconfig(self.connectionLine, fill="red")
+    
+    def setSusceptible(self):
+        self.canvas.itemconfig(self.connectionLine, fill="black")
+
+
+class State (enum):
+    INFECTED = 1
+    SUSCEPTIBLE = 2
+    RECOVERED = 3
