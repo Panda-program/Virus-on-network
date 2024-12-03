@@ -13,4 +13,7 @@ class Noda (object):
             self.neighbors.append(neighbor)
             neighbor.add_neighbor(self)
     
+    def infect(self):
+        self.infected = True
+        tk.Canvas.itemconfig(self.circle, fill="red")
     
