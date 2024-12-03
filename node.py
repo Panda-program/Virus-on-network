@@ -8,7 +8,7 @@ class Node (object):
         self.neighbors = []
         self.circle = tk.Canvas.create_oval(x, y, x+10, y+10, fill="red" if infected else "blue")
 
-    def add_neighbor(self, neighbor: 'Node'):
+    def createConnection(self, neighbor: 'Node'):
         if neighbor not in self.neighbors:
             self.neighbors.append(neighbor)
             neighbor.add_neighbor(self)
