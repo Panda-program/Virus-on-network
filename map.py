@@ -2,7 +2,8 @@ import random
 from node import Node, State
 
 class Map:
-    def __init__(self):
+    def __init__(self, canvas):
+        self.canvas = canvas
         self.width = 700
         self.height = 700
         self.tileSize = 70
@@ -16,4 +17,4 @@ class Map:
             tileX = x // self.tileSize
             tileY = y // self.tileSize
             
-            self.tiles[tileX][tileY].append(Node(x, y, State.SUSCEPTIBLE))
+            self.tiles[tileX][tileY].append(Node(self.canvas, x, y, State.SUSCEPTIBLE))
