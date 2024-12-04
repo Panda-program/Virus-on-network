@@ -31,13 +31,23 @@ class Node (object):
     
 class Connection (object):
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
-        nodes = [node1, node2]
+        self.nodes = [node1, node2]
         self.canvas = canvas
-        self.connectionLine = self.canvas.create_line(nodes[0].x + nodes[0].width / 2, nodes[0].y + nodes[0].width / 2, nodes[1].x + nodes[1].width / 2, nodes[1].y + nodes[1].width / 2, width=2)
+        self.connectionLine = self.canvas.create_line(self.nodes[0].x + self.nodes[0].width / 2, #x1
+                                                      self.nodes[0].y + self.nodes[0].width / 2, #y1
+                                                      self.nodes[1].x + self.nodes[1].width / 2, #x2
+                                                      self.nodes[1].y + self.nodes[1].width / 2, #y2
+                                                      width=2)
         canvas.tag_lower(self.connectionLine) #change z index of line to be behind nodes
         
     def hasNode(self, node: 'Node'):
         return node == self.node1 or node == self.node2
+    
+    def getFirstNode(self):
+        return self.nodes[0]
+    
+    def getSecondNode(self):
+        return self.nodes[1]
     
     def getConnectionLine(self):
         return self.connectionLine
@@ -49,7 +59,9 @@ class Connection (object):
             self.connectionLine.config(fill="black")
         
     def compareConnection(self, connection: 'Connection'):
-        return self.node1 == connection.node1 and self.node2 != connection.node2 or self.node1 != connection.node1 and self.node2 == connection.node2
+        conNode1 = connection.getFirstNode()
+        conNode2 = connection.getSecondNode()
+        return self.nodes[0] == conNode1 and self.nodes[1] != conNode2 or self.node[0] != conNode1 and self.nodes[1] == conNode2
 
 
 class State (enumerate):
