@@ -36,6 +36,7 @@ class Connection (object):
         nodes = [node1, node2]
         self.canvas = canvas
         self.connectionLine = self.canvas.create_line(nodes[0].x + nodes[0].width / 2, nodes[0].y + nodes[0].width / 2, nodes[1].x + nodes[1].width / 2, nodes[1].y + nodes[1].width / 2, width=2)
+        canvas.tag_lower(self.connectionLine) #change z index of line to be behind nodes
         
     def hasNode(self, node: 'Node'):
         return node == self.node1 or node == self.node2
