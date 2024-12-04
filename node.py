@@ -43,14 +43,11 @@ class Connection (object):
     def getConnectionLine(self):
         return self.connectionLine
     
-    def setInfected(self):
-        self.canvas.itemconfig(self.connectionLine, fill="red")
-    
-    def setSusceptible(self):
-        self.canvas.itemconfig(self.connectionLine, fill="black")
-        
-    def setRecovered(self):
-        self.canvas.itemconfig(self.connectionLine, fill="grey")
+    def check(self):
+        if (self.nodes[0].state == State.RECOVERED or self.nodes[1].state == State.RECOVERED):
+            self.connectionLine.config(fill="grey")
+        else:
+            self.connectionLine.config(fill="black")
         
     def compareConnection(self, connection: 'Connection'):
         return self.node1 == connection.node1 and self.node2 != connection.node2 or self.node1 != connection.node1 and self.node2 == connection.node2
