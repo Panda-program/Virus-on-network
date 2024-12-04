@@ -1,4 +1,3 @@
-import random
 class Node (object):
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
         self.width = 35
@@ -6,7 +5,6 @@ class Node (object):
         self.x = x
         self.y = y
         self.connections = []
-        self.id = random.randint(0, 100000)
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if state == State.INFECTED else "blue")
         self.state = state
         
