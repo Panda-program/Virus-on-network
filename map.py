@@ -24,10 +24,10 @@ class Map:
         for row in self.tiles:
             for column in row:
                 for node in column:
-                    startCol = (node.x - distance) // self.tileSize
-                    startRow = (node.y - distance) // self.tileSize
-                    endRow = (node.y + distance) // self.tileSize
-                    endCol = (node.x + distance) // self.tileSize
+                    startCol = max(0, (node.x - distance) // self.tileSize)
+                    startRow = max(0, (node.y - distance) // self.tileSize)
+                    endRow = min(9, (node.y + distance) // self.tileSize)
+                    endCol = min(9, (node.x + distance) // self.tileSize)
                     
                     for i in range(startRow + 1, endRow -1):
                         for j in range(startCol + 1, endCol - 1):
