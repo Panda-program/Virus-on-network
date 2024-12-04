@@ -8,7 +8,7 @@ canvas.pack()
 
 map = Map(canvas)
 map.createMap(10)
-print("SUPER")
+map.createConnections(300)
 
 if __name__ == '__main__':
     canvas.mainloop()

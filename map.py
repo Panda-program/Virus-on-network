@@ -14,8 +14,15 @@ class Map:
             x = random.randint(0, self.width - 1)
             y = random.randint(0, self.height - 1)
             
-            tileX = x // self.tileSize
-            tileY = y // self.tileSize
+            if (tileX % self.tileSize == 0):
+                tileX = x // self.tileSize 
+            else:
+                tileX = x // self.tileSize + 1
+            
+            if (tileY % self.tileSize == 0):
+                tileY = y // self.tileSize
+            else:
+                tileY = y // self.tileSize + 1
             
             self.tiles[tileX][tileY].append(Node(self.canvas, x, y, State.SUSCEPTIBLE))
     
@@ -24,28 +31,20 @@ class Map:
         for row in self.tiles:
             for column in row:
                 for node in column:
+                    if (node == None):
+                        continue
                     startCol = max(0, (node.x - distance) // self.tileSize)
                     startRow = max(0, (node.y - distance) // self.tileSize)
                     endRow = min(9, (node.y + distance) // self.tileSize)
                     endCol = min(9, (node.x + distance) // self.tileSize)
                     
-                    for i in range(startRow + 1, endRow -1):
-                        for j in range(startCol + 1, endCol - 1):
+                    for i in range(startRow, endRow):
+                        for j in range(startCol, endCol):
                             for neighbor in self.tiles[i][j]:
-                                if (node != neighbor):
+                                if (node != neighbor and neighbor != None and self.isDistanceValid(node, neighbor, distance)):
                                     node.createConnection(neighbor)
-                    
-                    for neighbor in self.tiles[startRow][startCol]:
-                        if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
-                            node.createConnection(neighbor)
-                    for neighbor in self.tiles[endRow][endCol]:
-                        if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
-                            node.createConnection(neighbor)
     
     def isDistanceValid(self, node1, node2, distance):
-        if (node1 == None or node2 == None):
-            return False
-        # Compare squared distances to avoid unnecessary sqrt calculations
         return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5 <= distance
                 
                 
