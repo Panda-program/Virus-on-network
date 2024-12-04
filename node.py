@@ -18,6 +18,9 @@ class Node (object):
     def createConnection(self, neighbor: 'Node'):
         if (neighbor not in self.connections):
             self.connections.append(Connection(self, neighbor, self.canvas))
+    
+    def addConnection(connection: 'Connection'):
+        self.connections.append(connection)
             
     def infect(self):
         self.state = State.INFECTED
@@ -25,7 +28,7 @@ class Node (object):
             if (connection.hasNode(self)):
                 connection.setInfected()
         self.canvas.itemconfig(self.circle, fill="red")
-        
+    
 class Connection (object):
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
         self.node1 = node1
@@ -46,7 +49,7 @@ class Connection (object):
         self.canvas.itemconfig(self.connectionLine, fill="black")
 
 
-class State (enum):
+class State (enumerate):
     INFECTED = 1
     SUSCEPTIBLE = 2
     RECOVERED = 3
