@@ -14,17 +14,46 @@ def setup_canvas(root): # Method for canvas
     
     return canvas
 
+def on_enter(e):
+    button.config(bg="#005f73", fg="white")  # Darker background on hover
+
+def on_leave(e):
+    button.config(bg="#0a9396", fg="white")  # Original background when not hovering
+
+def on_click():
+    print("Button clicked!")
+
 # Method for UI
 def setup_ui(root):
     ui_frame = tk.Frame(root, width=200)
     ui_frame.pack(side=tk.RIGHT, fill=tk.Y)
 
     # Example buttons
-    # button1 = tk.Button(ui_frame, text="Button 1", command=lambda: print("Button 1 clicked"))
-    # button1.pack(pady=10)
+    button = tk.Button(
+        ui_frame,
+        text="Click!",
+        font=("Helvetica", 14, "bold"),  # Modern font
+        bg="#0a9396",  # Initial button color
+        fg="white",  # Text color
+        relief="flat",  # Flat button, no borders
+        width=15,
+        height=2,
+        bd=5,  # Border width (for a 3D effect)
+        padx=10, pady=5,  # Padding inside the button
+        activebackground="#005f73",  # Color when the button is clicked
+        activeforeground="white",  # Text color when clicked
+        highlightthickness=0,  # Remove focus highlight
+        command=on_click,  # Set the command to run on click
+    )   
 
-    # button2 = tk.Button(ui_frame, text="Button 2", command=lambda: print("Button 2 clicked"))
-    # button2.pack(pady=10)
+    # Bind mouse hover effects to the button
+    button.bind("<Enter>", on_enter)
+    button.bind("<Leave>", on_leave)
+
+    # Pack the button into the window
+    button.pack(pady=100)
+
+    
     
 def update(canvas): # Method for updating canvas
     
