@@ -21,27 +21,31 @@ class Map:
     
     def createConnections(self, maxDistance):
         distance = maxDistance
-        for tile in self.tiles:
-            for node in tile:
-                startCol = (node.x - distance) // self.tileSize
-                startRow = (node.y - distance) // self.tileSize
-                endRow = (node.y + distance) // self.tileSize
-                endCol = (node.x + distance) // self.tileSize
-                
-                for i in range(startRow + 1, endRow -1):
-                    for j in range(startCol + 1, endCol - 1):
-                        for neighbor in self.tiles[i][j]:
-                            if (node != neighbor):
-                                node.createConnection(neighbor)
-                
-                for neihbor in self.tiles[startRow][startCol]:
-                    if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
-                        node.createConnection(neighbor)
-                for neihbor in self.tiles[endRow][endCol]:
-                    if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
-                        node.createConnection(neighbor)
+        for row in self.tiles:
+            for column in row:
+                for node in column:
+                    startCol = (node.x - distance) // self.tileSize
+                    startRow = (node.y - distance) // self.tileSize
+                    endRow = (node.y + distance) // self.tileSize
+                    endCol = (node.x + distance) // self.tileSize
+                    
+                    for i in range(startRow + 1, endRow -1):
+                        for j in range(startCol + 1, endCol - 1):
+                            for neighbor in self.tiles[i][j]:
+                                if (node != neighbor):
+                                    node.createConnection(neighbor)
+                    
+                    for neighbor in self.tiles[startRow][startCol]:
+                        if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
+                            node.createConnection(neighbor)
+                    for neighbor in self.tiles[endRow][endCol]:
+                        if (node != neighbor and self.isDistanceValid(node, neighbor, distance)):
+                            node.createConnection(neighbor)
     
     def isDistanceValid(self, node1, node2, distance):
-        return (node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2 <= distance
+        if (node1 == None or node2 == None):
+            return False
+        # Compare squared distances to avoid unnecessary sqrt calculations
+        return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5 <= distance
                 
                 
