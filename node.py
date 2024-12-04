@@ -1,6 +1,6 @@
 class Node (object):
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
-        self.width = 35
+        self.width = 20
         self.canvas = canvas
         self.x = x
         self.y = y
