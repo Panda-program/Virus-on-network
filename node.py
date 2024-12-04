@@ -61,7 +61,7 @@ class Connection (object):
     def compareConnection(self, connection: 'Connection'):
         conNode1 = connection.getFirstNode()
         conNode2 = connection.getSecondNode()
-        return self.nodes[0] == conNode1 and self.nodes[1] != conNode2 or self.node[0] != conNode1 and self.nodes[1] == conNode2
+        return self.nodes[0] == conNode1 and self.nodes[1] != conNode2 or self.nodes[0] != conNode1 and self.nodes[1] == conNode2
 
 
 class State (enumerate):
