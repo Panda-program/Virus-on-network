@@ -1,13 +1,13 @@
 import random
 class Node (object):
-    def __init__(self, canvas, x: 'int', y: 'int', state: 'State' = State.SUSCEPTIBLE):
+    def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
         self.width = 35
         self.canvas = canvas
         self.x = x
         self.y = y
         self.connections = []
         self.id = random.randint(0, 100000)
-        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if infected else "blue")
+        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if state == State.INFECTED else "blue")
         self.state = state
         
     def createConnection(self, neighbor: 'Node'):
@@ -18,7 +18,7 @@ class Node (object):
         self.connections.append(Connection(self, neighbor, self.canvas))
         neighbor.addConnection(connection)
     
-    def addConnection(connection: 'Connection'):
+    def addConnection(self, connection: 'Connection'):
         for con in self.connections:
             if (con.compareConnection(connection)):
                 return
