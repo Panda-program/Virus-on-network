@@ -31,10 +31,9 @@ class Node (object):
     
 class Connection (object):
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
-        self.node1 = node1
-        self.node2 = node2
+        nodes = [node1, node2]
         self.canvas = canvas
-        self.connectionLine = self.canvas.create_line(node1.x + node1.width / 2, node1.y + node1.width / 2, node2.x + node2.width / 2, node2.y + node2.width / 2)
+        self.connectionLine = self.canvas.create_line(nodes[0].x + nodes[0].width / 2, nodes[0].y + nodes[0].width / 2, nodes[1].x + nodes[1].width / 2, nodes[1].y + nodes[1].width / 2)
         
     def hasNode(self, node: 'Node'):
         return node == self.node1 or node == self.node2
