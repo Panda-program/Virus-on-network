@@ -21,6 +21,8 @@ class Node (object):
             if (con.compareConnection(connection)):
                 return
         self.connections.append(connection)
+        
+    def getDegree(self):
             
     def infect(self):
         self.state = State.INFECTED
