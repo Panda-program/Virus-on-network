@@ -33,11 +33,13 @@ class Map:
                     for i in range(startRow, endRow):
                         for j in range(startCol, endCol):
                             for neighbor in self.tiles[i][j]:
-                                if (len(node.connections) >= maxConnections):
-                                    continue
-                                if (node != neighbor and neighbor != None and self.isDistanceValid(node, neighbor, distance)):
-                                    node.createConnection(neighbor)
-    
+                                print(f"Node1: ({node.x}, {node.y}), Node2: ({neighbor.x}, {neighbor.y})")
+                                print(f"Distance: {((node.x - neighbor.x) ** 2 + (node.y - neighbor.y) ** 2) ** 0.5}")
+                                if (node != neighbor and neighbor != None and self.isDistanceValid(node, neighbor, distance)
+                                    and len(node.connections) < maxConnections) and len(neighbor.connections) < maxConnections:
+                                        node.createConnection(neighbor)
+                                        
+
     def isDistanceValid(self, node1, node2, distance):
         return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5 <= distance
                 

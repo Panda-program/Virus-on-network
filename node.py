@@ -5,7 +5,7 @@ class Node (object):
         self.x = x
         self.y = y
         self.connections = []
-        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, fill="red" if state == State.INFECTED else "blue")
+        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
         self.state = state
         
     def createConnection(self, neighbor: 'Node'):
@@ -37,7 +37,7 @@ class Connection (object):
                                                       self.nodes[0].y + self.nodes[0].width / 2, #y1
                                                       self.nodes[1].x + self.nodes[1].width / 2, #x2
                                                       self.nodes[1].y + self.nodes[1].width / 2, #y2
-                                                      width=2)
+                                                      width=2, fill="white")
         canvas.tag_lower(self.connectionLine) #change z index of line to be behind nodes
         
     def hasNode(self, node: 'Node'):
@@ -56,7 +56,7 @@ class Connection (object):
         if (self.nodes[0].state == State.RECOVERED or self.nodes[1].state == State.RECOVERED):
             self.connectionLine.config(fill="grey")
         else:
-            self.connectionLine.config(fill="black")
+            self.connectionLine.config(fill="white")
         
     def compareConnection(self, connection: 'Connection'):
         conNode1 = connection.getFirstNode()
