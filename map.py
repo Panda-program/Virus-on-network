@@ -2,7 +2,7 @@ import random
 from node import Node, State
 
 class Map:
-    def __init__(self, canvas, numberOfNodes):
+    def __init__(self, canvas, numberOfNodes, avgNodeDegree, infectedNodes, recoveredNodes):
         self.canvas = canvas
         self.width = 700
         self.height = 700
@@ -10,6 +10,9 @@ class Map:
         self.numberOfNodes = numberOfNodes
         self.nodes = []
         self.createMap()
+        self.createConnections(avgNodeDegree)
+        self.infectNodes(infectedNodes)
+        self.recoverNodes(recoveredNodes)
         
     def createMap(self):
         numOfNodes = 0
@@ -36,11 +39,25 @@ class Map:
                         nearestNode = n
                         nearestDistance = distance
             if (nearestNode != None):
-                node.createConnection(nearestNode)
-                currentConnections += 1
+                connection = node.createConnection(nearestNode)
+                if (connection):
+                    currentConnections += 1
+                
                 
         print("total connections: ", totalConnections)
         print("Number of connections created: ", currentConnections)
+    
+    def infectNodes(self, infectedNodes):
+        for i in range(infectedNodes):
+            node = random.choice(self.nodes)
+            if (node.state == State.SUSCEPTIBLE):
+                node.infect()
+    
+    def recoverNodes(self, recoveredNodes):
+        for i in range(recoveredNodes):
+            node = random.choice(self.nodes)
+            if (node.state == State.SUSCEPTIBLE):
+                node.recover()
         
         
                 
