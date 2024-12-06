@@ -5,15 +5,16 @@ class Node (object):
         self.x = x
         self.y = y
         self.connections = []
+        self.neighbors = []
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
         self.state = state
         
     def createConnection(self, neighbor: 'Node'):
+        if (neighbor in self.neighbors):
+            return
+        self.neighbors.append(neighbor)
         connection = Connection(self, neighbor, self.canvas)
-        for con in self.connections:
-            if (con.compareConnection(connection)):
-                return
-        self.connections.append(Connection(self, neighbor, self.canvas))
+        self.addConnection(connection)
         neighbor.addConnection(connection)
     
     def addConnection(self, connection: 'Connection'):
@@ -23,6 +24,7 @@ class Node (object):
         self.connections.append(connection)
         
     def getDegree(self):
+        return len(self.neighbors)
             
     def infect(self):
         self.state = State.INFECTED
