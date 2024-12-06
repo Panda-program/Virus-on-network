@@ -23,6 +23,9 @@ class Node (object):
                 return
         self.connections.append(connection)
         
+    def isNeighbor(self, node: 'Node'):
+        return node in self.neighbors
+        
     def getDegree(self):
         return len(self.neighbors)
             
