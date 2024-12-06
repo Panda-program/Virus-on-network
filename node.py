@@ -11,17 +11,19 @@ class Node (object):
         
     def createConnection(self, neighbor: 'Node'):
         if (neighbor in self.neighbors):
-            return
+            return False
         self.neighbors.append(neighbor)
         connection = Connection(self, neighbor, self.canvas)
-        self.addConnection(connection)
-        neighbor.addConnection(connection)
-    
-    def addConnection(self, connection: 'Connection'):
-        for con in self.connections:
-            if (con.compareConnection(connection)):
-                return
         self.connections.append(connection)
+        neighbor.addConnection(connection, self)
+        return True
+    
+    def addConnection(self, connection: 'Connection', neighbor: 'Node'):
+        if (neighbor not in self.neighbors):
+            self.neighbors.append(neighbor)
+            self.connections.append(connection)
+        else:
+            return
         
     def isNeighbor(self, node: 'Node'):
         return node in self.neighbors
@@ -31,10 +33,15 @@ class Node (object):
             
     def infect(self):
         self.state = State.INFECTED
-        for connection in self.connections:
-            if (connection.hasNode(self)):
-                connection.setInfected()
         self.canvas.itemconfig(self.circle, fill="red")
+        for connection in self.connections:
+            connection.infect()
+    
+    def recover(self):
+        self.state = State.RECOVERED
+        self.canvas.itemconfig(self.circle, fill="grey")
+        for connection in self.connections:
+            connection.recover()
     
 class Connection (object):
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
@@ -59,11 +66,13 @@ class Connection (object):
     def getConnectionLine(self):
         return self.connectionLine
     
-    def check(self):
+    def infect(self):
         if (self.nodes[0].state == State.RECOVERED or self.nodes[1].state == State.RECOVERED):
-            self.connectionLine.config(fill="grey")
-        else:
-            self.connectionLine.config(fill="white")
+            return
+        self.canvas.itemconfig(self.connectionLine, fill="red")
+    
+    def recover(self):
+        self.canvas.itemconfig(self.connectionLine, fill="grey")
         
     def compareConnection(self, connection: 'Connection'):
         conNode1 = connection.getFirstNode()
