@@ -1,6 +1,6 @@
 class Node (object):
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
-        self.width = 20
+        self.width = 12
         self.canvas = canvas
         self.x = x
         self.y = y
@@ -51,7 +51,7 @@ class Connection (object):
                                                       self.nodes[0].y + self.nodes[0].width / 2, #y1
                                                       self.nodes[1].x + self.nodes[1].width / 2, #x2
                                                       self.nodes[1].y + self.nodes[1].width / 2, #y2
-                                                      width=2, fill="white")
+                                                      width=1, fill="white")
         canvas.tag_lower(self.connectionLine) #change z index of line to be behind nodes
         
     def hasNode(self, node: 'Node'):
