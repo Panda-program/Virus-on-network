@@ -56,7 +56,7 @@ class Map:
         while (infectedNodes > 0):
             node = random.choice(self.nodes)
             if (node.state == State.SUSCEPTIBLE):
-                node.setNextState(State.INFECTED)
+                node.setState(State.INFECTED)
                 infectedNodes -= 1
     
     def recoverNodes(self, recoveredNodes):
