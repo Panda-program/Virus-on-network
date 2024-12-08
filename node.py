@@ -1,5 +1,6 @@
 class Node (object):
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
+        self.nextState = None
         self.width = 12
         self.canvas = canvas
         self.x = x
@@ -30,18 +31,30 @@ class Node (object):
         
     def getDegree(self):
         return len(self.neighbors)
-            
-    def infect(self):
-        self.state = State.INFECTED
-        self.canvas.itemconfig(self.circle, fill="red")
-        for connection in self.connections:
-            connection.infect()
+    
+    def setNextState(self, state: 'State'):
+        self.nextState = state
+    
+    def setState(self, state: 'State'):
+        self.state = state
     
     def recover(self):
         self.state = State.RECOVERED
         self.canvas.itemconfig(self.circle, fill="grey")
         for connection in self.connections:
             connection.recover()
+
+    def tick(self):
+        if (self.state == State.RECOVERED):
+            return
+        elif (self.state == State.INFECTED):
+            self.canvas.itemconfig(self.circle, fill="red")
+            for connection in self.connections:
+                connection.infect()
+            for neighbor in self.neighbors:
+                neighbor.setNextState(State.INFECTED)
+        self.state = self.nextState
+        
     
 class Connection (object):
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):

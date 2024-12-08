@@ -9,10 +9,12 @@ class Map:
         self.tileSize = 70
         self.numberOfNodes = numberOfNodes
         self.nodes = []
+        self.isLoaded = False
         self.createMap()
         self.createConnections(avgNodeDegree)
         self.infectNodes(infectedNodes)
         self.recoverNodes(recoveredNodes)
+        self.isLoaded = True
         
     def createMap(self):
         numOfNodes = 0
@@ -22,6 +24,9 @@ class Map:
             self.nodes.append(Node(self.canvas, x, y, State.SUSCEPTIBLE))
             numOfNodes += 1
         print("Number of nodes created: ", numOfNodes)
+    
+    def isMapLoaded(self):
+        return self.isLoaded
     
     def createConnections(self, avgNodeDegree):
         totalConnections = avgNodeDegree * self.numberOfNodes // 2
@@ -48,18 +53,22 @@ class Map:
         print("Number of connections created: ", currentConnections)
     
     def infectNodes(self, infectedNodes):
-        for i in range(infectedNodes):
+        while (infectedNodes > 0):
             node = random.choice(self.nodes)
             if (node.state == State.SUSCEPTIBLE):
-                node.infect()
+                node.setNextState(State.INFECTED)
+                infectedNodes -= 1
     
     def recoverNodes(self, recoveredNodes):
         for i in range(recoveredNodes):
             node = random.choice(self.nodes)
             if (node.state == State.SUSCEPTIBLE):
                 node.recover()
-        
-        
+    
+    def tick(self):
+        for node in self.nodes:
+            node.tick()
+        self.canvas.after(300, self.tick)
                 
     def getDistance(self, node1, node2):
         return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5
