@@ -1,14 +1,21 @@
+import random
 class Node (object):
-    def __init__(self, canvas, x: 'int', y: 'int', state: 'State'):
-        self.nextState = None
-        self.width = 12
+    def __init__(self, canvas, x: 'int', y: 'int', state: 'State', virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
         self.canvas = canvas
         self.x = x
         self.y = y
+        self.state = state
+        self.virus_spread_chance = virus_spread_chance
+        self.virus_check_frequency = virus_check_frequency
+        self.recovery_chance = recovery_chance
+        self.gain_resistance_chance = gain_resistance_chance
+        
         self.connections = []
         self.neighbors = []
+        self.nextState = None
+        self.width = 12
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
-        self.state = state
+        
         
     def createConnection(self, neighbor: 'Node'):
         if (neighbor in self.neighbors):
@@ -32,25 +39,50 @@ class Node (object):
     def getDegree(self):
         return len(self.neighbors)
     
+    def recover(self):
+        self.nextState = State.SUSCEPTIBLE
+        self.canvas.itemconfig(self.circle, fill="blue")
+    
     def setNextState(self, state: 'State'):
-        self.nextState = state
+        if (self.state == State.RESISTANT):
+            return
+        if (state == State.INFECTED):
+            infectedChance = round(random.uniform(0.00, 100.00), 2)
+            if (infectedChance <= self.virus_spread_chance):
+                self.nextState = state
+        else:
+            self.nextState = state
     
     def setState(self, state: 'State'):
         self.state = state
     
-    def recover(self):
-        self.state = State.RECOVERED
+    def check(self):
+        if (self.state == State.INFECTED):
+            recoveryChance = round(random.uniform(0.00, 100.00), 2)
+            if (recoveryChance <= self.recovery_chance):
+                self.nextState = State.RECOVERED
+            else:
+                resistanceChance = round(random.uniform(0.00, 100.00), 2)
+                if (resistanceChance <= self.gain_resistance_chance):
+                    self.nextState = State.RESISTANT
+                else:
+                    self.nextState = State.INFECTED
+    
+    def becomeResistant(self):
+        self.state = State.RESISTANT
         self.canvas.itemconfig(self.circle, fill="grey")
         for connection in self.connections:
             connection.recover()
 
     def tick(self):
-        if (self.state == State.RECOVERED):
-            return
+        if (self.state == State.RESISTANT):
+            self.becomeResistant()
+        elif (self.state == State.RECOVERED):
+            self.recover()
         elif (self.state == State.INFECTED):
             self.canvas.itemconfig(self.circle, fill="red")
-            for connection in self.connections:
-                connection.infect()
+            # for connection in self.connections:
+            #     connection.infect()
             for neighbor in self.neighbors:
                 neighbor.setNextState(State.INFECTED)
         self.state = self.nextState
@@ -80,7 +112,7 @@ class Connection (object):
         return self.connectionLine
     
     def infect(self):
-        if (self.nodes[0].state == State.RECOVERED or self.nodes[1].state == State.RECOVERED):
+        if (self.nodes[0].state == State.RESISTANT or self.nodes[1].state == State.RESISTANT):
             return
         self.canvas.itemconfig(self.connectionLine, fill="red")
     
@@ -96,4 +128,5 @@ class Connection (object):
 class State (enumerate):
     INFECTED = 1
     SUSCEPTIBLE = 2
-    RECOVERED = 3
+    RESISTANT = 3
+    RECOVERED = 4
