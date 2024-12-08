@@ -29,16 +29,20 @@ def setup_ui(root):
 
 # Main application
 def main():
-    number_of_nodes = 300
-    avg_node_degree = 4
-    infected_nodes = 1
-    recovered_nodes = 10
+    number_of_nodes = 400
+    avg_node_degree = 3
+    initial_outbreak_size = 1
+    virus_spread_chance = 40.5
+    virus_check_frequency = 1
+    recovery_chance = 20.0
+    gain_resistance_chance = 5.0
+    
     root = tk.Tk()
     root.title("Canvas and UI Example")
     # Set up canvas and UI
     canvas = setup_canvas(root)
     setup_ui(root)
-    map = Map(canvas, number_of_nodes, avg_node_degree, infected_nodes, recovered_nodes)
+    map = Map(canvas, number_of_nodes, avg_node_degree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance)
     while(map.isMapLoaded == False):
         pass
     map.tick()
