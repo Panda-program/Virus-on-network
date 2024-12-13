@@ -54,7 +54,7 @@ class Node (object):
     def infect(self):
         self.canvas.itemconfig(self.circle, fill="red")
         for neighbor in self.neighbors:
-            infectedChance = round(random.uniform(0.00, 100.00), 2)
+            infectedChance = random.random() * 100
             if (infectedChance <= self.virus_spread_chance):
                 neighbor.setNextState(State.INFECTED)
     
@@ -73,19 +73,15 @@ class Node (object):
             if (self.tickCount % self.virus_check_frequency != 0):
                 self.nextState = self.state
                 return
-            recoveryChance = round(random.uniform(0.00, 100.00), 2)
+            recoveryChance = random.random() * 100
             if (recoveryChance <= self.recovery_chance):
                 self.nextState = State.RECOVERED
             else:
-                resistanceChance = round(random.uniform(0.00, 100.00), 2)
+                resistanceChance = random.random() * 100
                 if (resistanceChance <= self.gain_resistance_chance):
                     self.nextState = State.RESISTANT
                 else:
                     self.setNextState(State.INFECTED)
-
-    
-        for connection in self.connections:
-            connection.check()
 
     def tick(self):
         self.tickCount += 1
@@ -100,6 +96,8 @@ class Node (object):
         if (self.state == None):
             self.nextState = State.SUSCEPTIBLE
             
+        for connection in self.connections:
+            connection.check()
         self.state = self.nextState
         
         
