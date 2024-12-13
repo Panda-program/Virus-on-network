@@ -22,6 +22,7 @@ class Map:
         self.createConnections()
         self.infectNodes()
         self.isLoaded = True
+        self.isEnd = False
         
     def createMap(self):
         numOfNodes = 0
@@ -67,23 +68,20 @@ class Map:
                 self.initial_outbreak_size -= 1
     
     def tick(self):
+        infectedCount = 0
+        
         for node in self.nodes:
             node.tick()
         for node in self.nodes:
             node.check()
-        infected_nodes = 0
-        for node in self.nodes:
             if (node.state == State.INFECTED):
-                infected_nodes += 1
-        if infected_nodes > 0:
-            self.canvas.after(self.speed, self.tick)
-        else:
-            # Perform a final cleanup: make sure all nodes are correctly colored
-            for node in self.nodes:
-                node.tick()  # Final update of states
-            for node in self.nodes:
-                node.check()  # Check connections
-            print("Simulation finished, all nodes have transitioned to non-infected states.")
+                infectedCount += 1
+        if (self.isEnd):
+            print("The simulation has ended")
+            return
+        if (infectedCount == 0):
+            self.isEnd = True
+        self.canvas.after(self.speed, self.tick)
         
                 
     def getDistance(self, node1, node2):
