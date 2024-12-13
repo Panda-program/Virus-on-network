@@ -9,6 +9,7 @@ class Node (object):
         self.virus_check_frequency = virus_check_frequency
         self.recovery_chance = recovery_chance
         self.gain_resistance_chance = gain_resistance_chance
+        self.tickCount = 0
         
         self.connections = []
         self.neighbors = []
@@ -69,6 +70,9 @@ class Node (object):
         if (self.state == State.RESISTANT):
             return
         elif (self.state == State.INFECTED):
+            if (self.tickCount % self.virus_check_frequency != 0):
+                self.nextState = self.state
+                return
             recoveryChance = round(random.uniform(0.00, 100.00), 2)
             if (recoveryChance <= self.recovery_chance):
                 self.nextState = State.RECOVERED
@@ -78,11 +82,13 @@ class Node (object):
                     self.nextState = State.RESISTANT
                 else:
                     self.setNextState(State.INFECTED)
+
     
         for connection in self.connections:
             connection.check()
 
     def tick(self):
+        self.tickCount += 1
         if (self.state == State.RESISTANT):
             self.becomeResistant()
         elif (self.state == State.RECOVERED):
