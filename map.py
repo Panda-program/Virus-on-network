@@ -2,7 +2,8 @@ import random
 from node import Node, State
 
 class Map:
-    def __init__(self, canvas, numberOfNodes, avgNodeDegree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+    def __init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+        self.speed = speed
         self.canvas = canvas
         self.width = 700
         self.height = 700
@@ -70,7 +71,19 @@ class Map:
             node.tick()
         for node in self.nodes:
             node.check()
-        self.canvas.after(300, self.tick)
+        infected_nodes = 0
+        for node in self.nodes:
+            if (node.state == State.INFECTED):
+                infected_nodes += 1
+        if infected_nodes > 0:
+            self.canvas.after(self.speed, self.tick)
+        else:
+            # Perform a final cleanup: make sure all nodes are correctly colored
+            for node in self.nodes:
+                node.tick()  # Final update of states
+            for node in self.nodes:
+                node.check()  # Check connections
+            print("Simulation finished, all nodes have transitioned to non-infected states.")
         
                 
     def getDistance(self, node1, node2):
