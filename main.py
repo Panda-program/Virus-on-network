@@ -1,73 +1,51 @@
 import tkinter as tk
-
-# Constants for window size
-WIDTH = 1040
-HEIGHT = 720
-
-
-def setup_canvas(root): # Method for canvas
-    canvas_frame = tk.Frame(root)
-    canvas_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True) # frame for canvas
-    
-    canvas = tk.Canvas(canvas_frame, width=WIDTH - 200, height=HEIGHT, bg="white") #canvas for canvas_frame
-    canvas.pack()
-    
-    return canvas
-
-def on_enter(e):
-    button.config(bg="#005f73", fg="white")  # Darker background on hover
-
-def on_leave(e):
-    button.config(bg="#0a9396", fg="white")  # Original background when not hovering
-
-def on_click():
-    print("Button clicked!")
+from tkinter import ttk
 
 # Method for UI
-def setup_ui(root):
-    ui_frame = tk.Frame(root, width=200)
-    ui_frame.pack(side=tk.RIGHT, fill=tk.Y)
+root = tk.Tk()
+root.geometry("500x600")
 
-    # Example buttons
-    button = tk.Button(
-        ui_frame,
-        text="Click!",
-        font=("Helvetica", 14, "bold"),  # Modern font
-        bg="#0a9396",  # Initial button color
-        fg="white",  # Text color
-        relief="flat",  # Flat button, no borders
-        width=15,
-        height=2,
-        bd=5,  # Border width (for a 3D effect)
-        padx=10, pady=5,  # Padding inside the button
-        activebackground="#005f73",  # Color when the button is clicked
-        activeforeground="white",  # Text color when clicked
-        highlightthickness=0,  # Remove focus highlight
-        command=on_click,  # Set the command to run on click
-    )   
+# Pozadie 
+control_frame = tk.Frame(root, bg="lightblue", width=250, height=600)
+control_frame.pack(side="left", fill="y")
 
-    # Bind mouse hover effects to the button
-    button.bind("<Enter>", on_enter)
-    button.bind("<Leave>", on_leave)
+# Sliders
+sliders = [
+    ("number-of-nodes", 150),
+    ("average-node-degree", 6),
+    ("initial-outbreak-size", 3),
+    ("virus-spread-chance", 2.5),
+    ("virus-check-frequency", 1),
+    ("recovery-chance", 5),
+    ("gain-resistance-chance", 5),
+]
 
-    # Pack the button into the window
-    button.pack(pady=100)
+slider_widgets = []
+for text, value in sliders:
+    label = tk.Label(control_frame, text=text, bg="lightblue")
+    label.pack(pady=5)
+    slider = ttk.Scale(control_frame, from_=0, to=100, value=value, orient="horizontal")
+    slider.pack(pady=5, fill="x")
+    slider_widgets.append(slider)
 
-    
-    
-def update(canvas): # Method for updating canvas
-    
-    canvas.after(1000, update, canvas)  # update every second
+# Buttons
+setup_button = tk.Button(control_frame, text="Setup", bg="white")
+setup_button.pack(pady=10, fill="x")
+
+go_button = tk.Button(control_frame, text="Go", bg="white")
+go_button.pack(pady=10, fill="x")
+
+reset_button = tk.Button(control_frame, text="Reset", bg="white")
+reset_button.pack(pady=10, fill="x")
+
+# Cierny screen 
+# canvas = tk.Canvas(root, bg="black", width=400, height=400)
+# canvas.pack(side="right", fill="both", expand=True)
 
 # Main application
 def main():
     root = tk.Tk()
     root.title("Canvas and UI Example")
-
-    # Set up canvas and UI
-    canvas = setup_canvas(root)
-    setup_ui(root)
-
     root.mainloop()
 if __name__ == '__main__':
     main()
