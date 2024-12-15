@@ -9,7 +9,7 @@ HEIGHT = 720
 
 def setup_canvas(root): # Method for canvas
     canvas_frame = tk.Frame(root)
-    canvas_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True) # frame for canvas
+    canvas_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True) # frame for canvas
     canvas = tk.Canvas(canvas_frame, width=WIDTH - 200, height=HEIGHT, bg="black") #canvas for canvas_frame
     canvas.pack()
     return canvas
@@ -17,7 +17,7 @@ def setup_canvas(root): # Method for canvas
 # Method for UI
 def setup_ui(root):
     ui_frame = tk.Frame(root, width=200)
-    ui_frame.pack(side=tk.RIGHT, fill=tk.Y)
+    ui_frame.pack(side=tk.LEFT, fill=tk.Y)
 
 # Main application
 def main():
