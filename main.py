@@ -1,51 +1,42 @@
 import tkinter as tk
 from tkinter import ttk
+from map import Map
+from UI import UI
+
+# Constants for window size
+WIDTH = 1040
+HEIGHT = 720
+
+
+def setup_canvas(root): # Method for canvas
+    canvas_frame = tk.Frame(root)
+    canvas_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True) # frame for canvas
+    canvas = tk.Canvas(canvas_frame, width=WIDTH - 200, height=HEIGHT, bg="black") #canvas for canvas_frame
+    canvas.pack()
+    return canvas
 
 # Method for UI
+def setup_ui(root, map):
+    ui_frame = tk.Frame(root, width=200)
+    ui_frame.pack(side=tk.LEFT, fill=tk.Y, pady=0)
+
+    ui = UI(root, map, ui_frame, tk, ttk)
+    ui.setup()
+
+number_of_nodes = 4
+avg_node_degree = 3
+initial_outbreak_size = 1
+virus_spread_chance = 20.0
+virus_check_frequency = 1
+recovery_chance = 4.0
+gain_resistance_chance = 3.0
+speed = 100 # in milliseconds
+
 root = tk.Tk()
-root.geometry("500x600")
+root.title("Canvas and UI Example")
+canvas = setup_canvas(root)
 
-# Pozadie 
-control_frame = tk.Frame(root, bg="lightblue", width=250, height=600)
-control_frame.pack(side="left", fill="y")
+map = Map(canvas, speed, number_of_nodes, avg_node_degree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance)
+setup_ui(root, map)
 
-# Sliders
-sliders = [
-    ("number-of-nodes", 150),
-    ("average-node-degree", 6),
-    ("initial-outbreak-size", 3),
-    ("virus-spread-chance", 2.5),
-    ("virus-check-frequency", 1),
-    ("recovery-chance", 5),
-    ("gain-resistance-chance", 5),
-]
-
-slider_widgets = []
-for text, value in sliders:
-    label = tk.Label(control_frame, text=text, bg="lightblue")
-    label.pack(pady=5)
-    slider = ttk.Scale(control_frame, from_=0, to=100, value=value, orient="horizontal")
-    slider.pack(pady=5, fill="x")
-    slider_widgets.append(slider)
-
-# Buttons
-setup_button = tk.Button(control_frame, text="Setup", bg="white")
-setup_button.pack(pady=10, fill="x")
-
-go_button = tk.Button(control_frame, text="Go", bg="white")
-go_button.pack(pady=10, fill="x")
-
-reset_button = tk.Button(control_frame, text="Reset", bg="white")
-reset_button.pack(pady=10, fill="x")
-
-# Cierny screen 
-# canvas = tk.Canvas(root, bg="black", width=400, height=400)
-# canvas.pack(side="right", fill="both", expand=True)
-
-# Main application
-def main():
-    root = tk.Tk()
-    root.title("Canvas and UI Example")
-    root.mainloop()
-if __name__ == '__main__':
-    main()
+root.mainloop()
