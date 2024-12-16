@@ -7,7 +7,6 @@ class Map:
         self.canvas = canvas
         self.width = 700
         self.height = 700
-        self.tileSize = 70
         self.numberOfNodes = numberOfNodes
         self.avgNodeDegree = avgNodeDegree
         self.initial_outbreak_size = initial_outbreak_size
@@ -18,10 +17,6 @@ class Map:
         
         self.nodes = []
         self.isLoaded = False
-        self.createMap()
-        self.createConnections()
-        self.infectNodes()
-        self.isLoaded = True
         self.isEnd = False
         
     def createMap(self):
@@ -32,6 +27,39 @@ class Map:
             self.nodes.append(Node(self.canvas, x, y, State.SUSCEPTIBLE, self.virus_spread_chance, self.virus_check_frequency, self.recovery_chance, self.gain_resistance_chance))
             numOfNodes += 1
         print("Number of nodes created: ", numOfNodes)
+    
+    def setup(self):
+    # Reset the map if already loaded
+        if self.isLoaded:
+            self.reset()
+
+        # Create a new map and connections
+        self.createMap()
+        self.createConnections()
+
+        # Infect initial nodes
+        self.infectNodes()
+
+        # Ensure tick and check for all nodes to start simulation
+        for node in self.nodes:
+            node.tick()
+        for node in self.nodes:
+            node.check()
+
+        # Set flags to indicate that the map is loaded and simulation has started
+        self.isLoaded = True
+        self.isEnd = False
+
+        
+    def reset(self):
+        # End the current simulation and reset flags
+        self.isEnd = True
+        self.isLoaded = False
+
+        # Clear the canvas and the node list
+        self.canvas.delete("all")
+        self.nodes = []
+
     
     def isMapLoaded(self):
         return self.isLoaded
@@ -68,6 +96,8 @@ class Map:
                 self.initial_outbreak_size -= 1
     
     def tick(self):
+        if (self.isEnd or self.isLoaded == False):
+            return
         infectedCount = 0
         
         for node in self.nodes:
