@@ -89,11 +89,36 @@ The `Map` class manages overall simulation, including creation of nodes and conn
 
 ### Methods
 
-####  `__init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):`
-- **Description:** Constructor of the map setting the initial attributes and state of the map
+####  `__init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance)`
+**Description:** Constructor of the map setting the initial attributes and state of the map
 
-#### `createMap(self):`
-- **Description:** Creates nodes based on `numberOfNodes` parameter on the map and stores them in nodes[] list where each node is assigned random position on the map.
+#### `setup(self)`
+**Description:**
+- Checks if the map has been loaded. If was loaded then calls reset() method.
+- calls methods for creating nodes, connections and infecting first nodes
+- Performs one tick and check for the nodes and connections to display properly and update their starting state
+- sets `isLoaded` to True and `isEnd` to False
+
+#### `createMap(self)`
+**Description:** Creates nodes based on `numberOfNodes` parameter on the map and stores them in nodes[] list where each node is assigned random position on the map.
+
+#### `reset(self)`
+**Description:** 
+- sets variables `isEnd` to True and `isLoaded` to False
+- calls `canvas` object to delete everything drawed on canvas
+- sets `nodes[]` list to be blank (deleting all the instances of nodes)
+
+#### `createConnections(self)`
+**Description:*
+- calculates total number of connections to be created between nodes 
+- while the number of created connections is less than total number of connections it takes one random node from the `nodes[]` list and:  
+    - loops through other nodes checking if the nodes are not already sharing connection
+    - checks if the selected nodes haven't reached the `avgNodeDegree`
+    - calls the `getDistance()` method to calculate distance between two nodes and stores the node which is closest
+    - when found closest node it creates the connection between the nodes
+
+#### `infectNodes(self)`
+**Description:** 
 
 # Conclusion
 Final thoughts and recommendations.
