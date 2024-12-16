@@ -2,12 +2,6 @@
 - [Introduction](#introduction)
 - [Overview](#overview)
 - [Classes](#classes)
-    - [Map](##map)
-    - [Node](##node)
-    - [Connection](##Connection)
-    - [State](##State)
-    - [UI](##UI)
-    - [Graph](##Graph)
 - [Conclusion](#conclusion)
 
 # Introduction
