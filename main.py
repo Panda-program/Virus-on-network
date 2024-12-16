@@ -1,6 +1,7 @@
 import tkinter as tk
+from tkinter import ttk
 from map import Map
-import time
+from UI import UI
 
 # Constants for window size
 WIDTH = 1040
@@ -41,4 +42,4 @@ def main():
     
     map.tick()
 
-root.mainloop()
+    root.mainloop()
