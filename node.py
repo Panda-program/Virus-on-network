@@ -1,6 +1,23 @@
 import random
+"""
+Class to represent a device (node) in the network
+"""
 class Node (object):
+    # Constructor for the Node class
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State', virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+        
+        """
+            Parameters:
+            canvas: The canvas object to draw the node on
+            x: The x coordinate of the node
+            y: The y coordinate of the node
+            state: The state of the node (susceptible, infected, resistant, recovered)
+            virus_spread_chance: The chance of the virus spreading to a neighbor node
+            virus_check_frequency: The number of ticks between each virus spread check
+            recovery_chance: The chance of an infected node recovering
+            gain_resistance_chance: The chance of a recovered node gaining resistance to the virus
+        """
+        
         self.canvas = canvas
         self.x = x
         self.y = y
@@ -11,6 +28,7 @@ class Node (object):
         self.gain_resistance_chance = gain_resistance_chance
         self.tickCount = 0
         
+        
         self.connections = []
         self.neighbors = []
         self.nextState = None
@@ -18,6 +36,9 @@ class Node (object):
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
         
         
+    """
+    Method to create a connection between two nodes returning a boolean value to indicate if the creation of connection was successful
+    """
     def createConnection(self, neighbor: 'Node'):
         if (neighbor in self.neighbors):
             return False
@@ -27,6 +48,7 @@ class Node (object):
         neighbor.addConnection(connection, self)
         return True
     
+    # Method to add an existing connection to the node and append the neighbor to the list of neighbors
     def addConnection(self, connection: 'Connection', neighbor: 'Node'):
         if (neighbor not in self.neighbors):
             self.neighbors.append(neighbor)
@@ -34,38 +56,47 @@ class Node (object):
         else:
             return
         
+    # Method for checking if a node is a neighbor    
     def isNeighbor(self, node: 'Node'):
         return node in self.neighbors
-        
+    
+    #getter for degree - number of neighbors    
     def getDegree(self):
         return len(self.neighbors)
     
+    #getter for state
     def getState(self):
         return self.state
     
+    #setter for state
     def setState(self, state: 'State'):
         self.state = state
     
+    #setter for next state
     def setNextState(self, state: 'State'):
         if (self.state == State.RESISTANT):
             return
         self.nextState = state
     
+    #method for infecting self and neighbors
     def infect(self):
         self.canvas.itemconfig(self.circle, fill="red")
         for neighbor in self.neighbors:
             infectedChance = random.random() * 100
             if (infectedChance <= self.virus_spread_chance):
                 neighbor.setNextState(State.INFECTED)
-    
+                
+    #method for setting state and visual representation as recovered node
     def recover(self):
         self.nextState = State.SUSCEPTIBLE
         self.canvas.itemconfig(self.circle, fill="blue")
     
+    #method for setting state and visual representation as resistant node
     def becomeResistant(self):
         self.state = State.RESISTANT
         self.canvas.itemconfig(self.circle, fill="grey")
     
+    #main method for checking the state of the node and updating the upcoming state
     def check(self):
         if (self.state == State.RESISTANT):
             return
@@ -83,6 +114,7 @@ class Node (object):
                 else:
                     self.setNextState(State.INFECTED)
 
+    #main loop for the node handling the state transitions
     def tick(self):
         self.tickCount += 1
         if (self.state == State.RESISTANT):
@@ -101,11 +133,21 @@ class Node (object):
         self.state = self.nextState
         
         
-    
+'''
+    Class to represent a connection between two nodes containing connected nodes and the visual line object
+'''
 class Connection (object):
+    # Constructor for the Connection class
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
+        """
+            Parameters:
+            node1: The first node in the connection
+            node2: The second node in the connection
+            canvas: The canvas object to draw the connection
+        """
         self.nodes = [node1, node2]
         self.canvas = canvas
+        #create line object between nodes
         self.connectionLine = self.canvas.create_line(self.nodes[0].x + self.nodes[0].width / 2, #x1
                                                       self.nodes[0].y + self.nodes[0].width / 2, #y1
                                                       self.nodes[1].x + self.nodes[1].width / 2, #x2
@@ -113,18 +155,23 @@ class Connection (object):
                                                       width=1, fill="white")
         canvas.tag_lower(self.connectionLine) #change z index of line to be behind nodes
         
+    #method returning boolean value if node is in connection
     def hasNode(self, node: 'Node'):
         return node == self.node1 or node == self.node2
     
+    #getter for first node
     def getFirstNode(self):
         return self.nodes[0]
     
+    #getter for second node    
     def getSecondNode(self):
         return self.nodes[1]
     
+    #getter for connection line
     def getConnectionLine(self):
         return self.connectionLine
     
+    #method for checking the state of the nodes and updating the visual representation of the connection
     def check(self):
         if (self.nodes[0].state == State.RESISTANT or self.nodes[1].state == State.RESISTANT):
             self.canvas.itemconfig(self.connectionLine, fill="grey")
@@ -133,15 +180,17 @@ class Connection (object):
         else:
             self.canvas.itemconfig(self.connectionLine, fill="white")
     
+    #method for updating the visual representation of the connection
     def recover(self):
         self.canvas.itemconfig(self.connectionLine, fill="grey")
-        
+    
+    #method for updating the visual representation of the connection
     def compareConnection(self, connection: 'Connection'):
         conNode1 = connection.getFirstNode()
         conNode2 = connection.getSecondNode()
         return self.nodes[0] == conNode1 and self.nodes[1] != conNode2 or self.nodes[0] != conNode1 and self.nodes[1] == conNode2
 
-
+# Enum class for the states of the nodes
 class State (enumerate):
     INFECTED = 1
     SUSCEPTIBLE = 2

@@ -1,8 +1,25 @@
 import random
 from node import Node, State
 
+"""
+    Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.
+"""
+
 class Map:
+    # Constructor for the Map class
     def __init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+        """
+            Parameters:
+            canvas: The canvas object to draw the nodes and connections on
+            speed: The speed of the simulation in milliseconds
+            numberOfNodes: The number of nodes to create
+            avgNodeDegree: The average number of connections each node should have
+            initial_outbreak_size: The number of nodes to infect at the start of the simulation
+            virus_spread_chance: The chance of the virus spreading to a neighbor node
+            virus_check_frequency: The number of ticks between each virus spread check
+            recovery_chance: The chance of an infected node recovering
+            gain_resistance_chance: The chance of a recovered node gaining resistance to the virus
+        """
         self.speed = speed
         self.canvas = canvas
         self.width = 700
@@ -19,6 +36,7 @@ class Map:
         self.isLoaded = False
         self.isEnd = False
         
+    # Create the nodes for the map with random positions
     def createMap(self):
         numOfNodes = 0
         for i in range(self.numberOfNodes):
@@ -28,16 +46,14 @@ class Map:
             numOfNodes += 1
         print("Number of nodes created: ", numOfNodes)
     
+    # Setup method for initializing the map for simulation
     def setup(self):
-    # Reset the map if already loaded
+        # Reset the map if already loaded
         if self.isLoaded:
             self.reset()
-
-        # Create a new map and connections
+            
         self.createMap()
         self.createConnections()
-
-        # Infect initial nodes
         self.infectNodes()
 
         # Ensure tick and check for all nodes to start simulation
@@ -50,20 +66,19 @@ class Map:
         self.isLoaded = True
         self.isEnd = False
 
-        
+    # method to reset the map and clear the canvas
     def reset(self):
-        # End the current simulation and reset flags
+        
         self.isEnd = True
         self.isLoaded = False
-
-        # Clear the canvas and the node list
         self.canvas.delete("all")
         self.nodes = []
 
-    
+    # method to check if the map is loaded
     def isMapLoaded(self):
         return self.isLoaded
     
+    # algorithm to create connections between nodes based on the average node degree and euclidean distance
     def createConnections(self):
         totalConnections = self.avgNodeDegree * self.numberOfNodes // 2
         currentConnections = 0
@@ -73,12 +88,15 @@ class Map:
             nearestNode = None
             nearestDistance = float("inf")
         
+            # Find the nearest node that is not a neighbor and has less than the average node degree
             for n in self.nodes:
                 if (n != node and not node.isNeighbor(n)):
                     distance = self.getDistance(node, n)
                     if (distance < nearestDistance and n.getDegree() < self.avgNodeDegree and node.isNeighbor(n) == False):
                         nearestNode = n
                         nearestDistance = distance
+            
+            # Create a connection between the nodes if a suitable node is found
             if (nearestNode != None):
                 connection = node.createConnection(nearestNode)
                 if (connection):
@@ -88,6 +106,7 @@ class Map:
         print("total connections: ", totalConnections)
         print("Number of connections created: ", currentConnections)
     
+    # method to infect nodes at the start of the simulation
     def infectNodes(self):
         while (self.initial_outbreak_size > 0):
             node = random.choice(self.nodes)
@@ -95,6 +114,7 @@ class Map:
                 node.setState(State.INFECTED)
                 self.initial_outbreak_size -= 1
     
+    # recursive method which handles the simulation loop
     def tick(self):
         if (self.isEnd or self.isLoaded == False):
             return
@@ -106,14 +126,17 @@ class Map:
             node.check()
             if (node.state == State.INFECTED):
                 infectedCount += 1
+
+        # check if the simulation has ended
         if (self.isEnd):
             print("The simulation has ended")
             return
         if (infectedCount == 0):
             self.isEnd = True
+        
         self.canvas.after(self.speed, self.tick)
         
-                
+    # method to calculate the euclidean distance between two nodes
     def getDistance(self, node1, node2):
         return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5
                 
