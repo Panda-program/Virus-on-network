@@ -7,18 +7,18 @@ from node import Node, State
 
 class Map:
     # Constructor for the Map class
-    def __init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+    def __init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
         """
             Parameters:
             canvas: The canvas object to draw the nodes and connections on
             speed: The speed of the simulation in milliseconds
             numberOfNodes: The number of nodes to create
             avgNodeDegree: The average number of connections each node should have
-            initial_outbreak_size: The number of nodes to infect at the start of the simulation
-            virus_spread_chance: The chance of the virus spreading to a neighbor node
-            virus_check_frequency: The number of ticks between each virus spread check
-            recovery_chance: The chance of an infected node recovering
-            gain_resistance_chance: The chance of a recovered node gaining resistance to the virus
+            initialOutbreakSize: The number of nodes to infect at the start of the simulation
+            virusSpreadChance: The chance of the virus spreading to a neighbor node
+            virusCheckFreq: The number of ticks between each virus spread check
+            recoveryChance: The chance of an infected node recovering
+            gainResistChance: The chance of a recovered node gaining resistance to the virus
         """
         self.speed = speed
         self.canvas = canvas
@@ -26,26 +26,16 @@ class Map:
         self.height = 700
         self.numberOfNodes = numberOfNodes
         self.avgNodeDegree = avgNodeDegree
-        self.initial_outbreak_size = initial_outbreak_size
-        self.virus_spread_chance = virus_spread_chance
-        self.virus_check_frequency = virus_check_frequency
-        self.recovery_chance = recovery_chance
-        self.gain_resistance_chance = gain_resistance_chance
+        self.initialOutbreakSize = initialOutbreakSize
+        self.virusSpreadChance = virusSpreadChance
+        self.virusCheckFreq = virusCheckFreq
+        self.recoveryChance = recoveryChance
+        self.gainResistChance = gainResistChance
         
         self.nodes = []
         self.isLoaded = False
         self.isEnd = False
         
-    # Create the nodes for the map with random positions
-    def createMap(self):
-        numOfNodes = 0
-        for i in range(self.numberOfNodes):
-            x = random.randint(0, self.width - 1)
-            y = random.randint(0, self.height - 1)
-            self.nodes.append(Node(self.canvas, x, y, State.SUSCEPTIBLE, self.virus_spread_chance, self.virus_check_frequency, self.recovery_chance, self.gain_resistance_chance))
-            numOfNodes += 1
-        print("Number of nodes created: ", numOfNodes)
-    
     # Setup method for initializing the map for simulation
     def setup(self):
         # Reset the map if already loaded
@@ -65,10 +55,19 @@ class Map:
         # Set flags to indicate that the map is loaded and simulation has started
         self.isLoaded = True
         self.isEnd = False
+        
+    # Create the nodes for the map with random positions
+    def createMap(self):
+        numOfNodes = 0
+        for i in range(self.numberOfNodes):
+            x = random.randint(0, self.width - 1)
+            y = random.randint(0, self.height - 1)
+            self.nodes.append(Node(self.canvas, x, y, State.SUSCEPTIBLE, self.virusSpreadChance, self.virusCheckFreq, self.recoveryChance, self.gainResistChance))
+            numOfNodes += 1
+        print("Number of nodes created: ", numOfNodes)
 
     # method to reset the map and clear the canvas
     def reset(self):
-        
         self.isEnd = True
         self.isLoaded = False
         self.canvas.delete("all")
@@ -108,11 +107,11 @@ class Map:
     
     # method to infect nodes at the start of the simulation
     def infectNodes(self):
-        while (self.initial_outbreak_size > 0):
+        while (self.initialOutbreakSize > 0):
             node = random.choice(self.nodes)
             if (node.state == State.SUSCEPTIBLE):
                 node.setState(State.INFECTED)
-                self.initial_outbreak_size -= 1
+                self.initialOutbreakSize -= 1
     
     # recursive method which handles the simulation loop
     def tick(self):
