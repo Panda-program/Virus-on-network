@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>map module &mdash; Virus on network 1.0.0 documentation</title>
+  <title>Map Class &mdash; Virus on network 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="node module" href="node.html" />
+    <link rel="prev" title="Virus on network documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,11 +42,28 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">map module</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Map Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-definition">Class Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#createMap"><code class="docutils literal notranslate"><span class="pre">createMap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#createConnections"><code class="docutils literal notranslate"><span class="pre">createConnections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getDistance"><code class="docutils literal notranslate"><span class="pre">getDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#infectNodes"><code class="docutils literal notranslate"><span class="pre">infectNodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tick"><code class="docutils literal notranslate"><span class="pre">tick()</span></code></a></li>
 </ul>
-</div>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="node.html">node module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -59,7 +78,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">map module</li>
+      <li class="breadcrumb-item active">Map Class</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/map.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -69,14 +88,136 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="map-module">
-<h1>map module<a class="headerlink" href="#map-module" title="Link to this heading"></a></h1>
+  <section id="map-class">
+<h1>Map Class<a class="headerlink" href="#map-class" title="Link to this heading"></a></h1>
+<p>The <cite>Map</cite> class manages the overall simulation, including the creation of nodes and connections between them.</p>
+<section id="class-definition">
+<h2>Class Definition<a class="headerlink" href="#class-definition" title="Link to this heading"></a></h2>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+</section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#init__" title="Link to this definition"></a></dt>
+<dd><p>Constructor of the map setting the initial attributes and state of the map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>canvas</strong> (<em>tkinter.Canvas</em>) – The canvas object to draw the nodes and connections on.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numberOfNodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avgNodeDegree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialOutbreakSize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virusSpreadChance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virusCheckFreq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recoveryChance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gainResistChance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#setup" title="Link to this definition"></a></dt>
+<dd><p>Sets up the map for simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speed</strong> (<em>int</em>) – The speed of the simulation in milliseconds.</p></li>
+<li><p><strong>numberOfNodes</strong> (<em>int</em>) – The number of nodes to create.</p></li>
+<li><p><strong>avgNodeDegree</strong> (<em>int</em>) – The average number of connections each node should have.</p></li>
+<li><p><strong>initialOutbreakSize</strong> (<em>int</em>) – The number of nodes to infect at the start of the simulation.</p></li>
+<li><p><strong>virusSpreadChance</strong> (<em>float</em>) – The chance of the virus spreading to a neighbor node.</p></li>
+<li><p><strong>virusCheckFreq</strong> (<em>int</em>) – The number of ticks between each virus spread check.</p></li>
+<li><p><strong>recoveryChance</strong> (<em>float</em>) – The chance of an infected node recovering.</p></li>
+<li><p><strong>gainResistChance</strong> (<em>float</em>) – The chance of a recovered node gaining resistance to the virus.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="createMap">
+<span class="sig-name descname"><span class="pre">createMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#createMap" title="Link to this definition"></a></dt>
+<dd><p>Creates nodes based on the <cite>numberOfNodes</cite> parameter on the map and stores them in the <cite>nodes</cite> list where each node is assigned a random position on the map.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reset" title="Link to this definition"></a></dt>
+<dd><p>Resets the map and clears the canvas.</p>
+<ul class="simple">
+<li><p>Sets <cite>isEnd</cite> to True and <cite>isLoaded</cite> to False.</p></li>
+<li><p>Calls the <cite>canvas</cite> object to delete everything drawn on the canvas.</p></li>
+<li><p>Sets the <cite>nodes</cite> list to be blank (deleting all instances of nodes).</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="createConnections">
+<span class="sig-name descname"><span class="pre">createConnections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#createConnections" title="Link to this definition"></a></dt>
+<dd><p>Creates connections between nodes based on the average node degree and Euclidean distance.</p>
+<ul class="simple">
+<li><p>Calculates the total number of connections to be created between nodes.</p></li>
+<li><dl class="simple">
+<dt>While the number of created connections is less than the total number of connections, it takes one random node from the <cite>nodes</cite> list and:</dt><dd><ul>
+<li><p>Loops through other nodes checking if the nodes are not already sharing a connection.</p></li>
+<li><p>Checks if the selected nodes haven’t reached the <cite>avgNodeDegree</cite>.</p></li>
+<li><p>Calls the <cite>getDistance</cite> method to calculate the distance between two nodes and stores the node which is closest.</p></li>
+<li><p>When the closest node is found, it creates the connection between the nodes.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="getDistance">
+<span class="sig-name descname"><span class="pre">getDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#getDistance" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Euclidean distance between the given nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node1</strong> (<em>Node</em>) – The first node.</p></li>
+<li><p><strong>node2</strong> (<em>Node</em>) – The second node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Euclidean distance between the two nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="infectNodes">
+<span class="sig-name descname"><span class="pre">infectNodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#infectNodes" title="Link to this definition"></a></dt>
+<dd><p>Infects nodes at the start of the simulation.</p>
+<ul class="simple">
+<li><p>Randomly picks nodes to be infected until the number of infected nodes equals the <cite>initialOutbreakSize</cite> parameter.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tick">
+<span class="sig-name descname"><span class="pre">tick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tick" title="Link to this definition"></a></dt>
+<dd><p>Handles the simulation loop.</p>
+<ul class="simple">
+<li><p>Checks if the game is at its end or if it is not loaded; if it is, then it breaks the loop.</p></li>
+<li><p>Loops through every node in the <cite>nodes</cite> list and calls the <cite>node.tick</cite> method for the nodes to update their states.</p></li>
+<li><p>Loops again through every node and calls the <cite>node.check</cite> method for the node to calculate the next state and checks if the node is infected.</p></li>
+<li><p>Checks if <cite>isEnd</cite> equals True; if yes, then it breaks the simulation loop.</p></li>
+<li><p>Checks if the number of infected nodes is 0; if yes, then sets <cite>isEnd</cite> to True.</p></li>
+</ul>
+</dd></dl>
+
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Virus on network documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="node.html" class="btn btn-neutral float-right" title="node module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
