@@ -4,7 +4,7 @@ Class to represent a device (node) in the network
 """
 class Node (object):
     # Constructor for the Node class
-    def __init__(self, canvas, x: 'int', y: 'int', state: 'State', virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance):
+    def __init__(self, canvas, x: 'int', y: 'int', state: 'State', virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
         
         """
             Parameters:
@@ -12,20 +12,20 @@ class Node (object):
             x: The x coordinate of the node
             y: The y coordinate of the node
             state: The state of the node (susceptible, infected, resistant, recovered)
-            virus_spread_chance: The chance of the virus spreading to a neighbor node
-            virus_check_frequency: The number of ticks between each virus spread check
-            recovery_chance: The chance of an infected node recovering
-            gain_resistance_chance: The chance of a recovered node gaining resistance to the virus
+            virusSpreadChance: The chance of the virus spreading to a neighbor node
+            virusCheckFreq: The number of ticks between each virus spread check
+            recoveryChance: The chance of an infected node recovering
+            gainResistChance: The chance of a recovered node gaining resistance to the virus
         """
         
         self.canvas = canvas
         self.x = x
         self.y = y
         self.state = state
-        self.virus_spread_chance = virus_spread_chance
-        self.virus_check_frequency = virus_check_frequency
-        self.recovery_chance = recovery_chance
-        self.gain_resistance_chance = gain_resistance_chance
+        self.virusSpreadChance = virusSpreadChance
+        self.virusCheckFreq = virusCheckFreq
+        self.recoveryChance = recoveryChance
+        self.gainResistChance = gainResistChance
         self.tickCount = 0
         
         
@@ -83,7 +83,7 @@ class Node (object):
         self.canvas.itemconfig(self.circle, fill="red")
         for neighbor in self.neighbors:
             infectedChance = random.random() * 100
-            if (infectedChance <= self.virus_spread_chance):
+            if (infectedChance <= self.virusSpreadChance):
                 neighbor.setNextState(State.INFECTED)
                 
     #method for setting state and visual representation as recovered node
@@ -101,15 +101,15 @@ class Node (object):
         if (self.state == State.RESISTANT):
             return
         elif (self.state == State.INFECTED):
-            if (self.tickCount % self.virus_check_frequency != 0):
+            if (self.tickCount % self.virusCheckFreq != 0):
                 self.nextState = self.state
                 return
             recoveryChance = random.random() * 100
-            if (recoveryChance <= self.recovery_chance):
+            if (recoveryChance <= self.recoveryChance):
                 self.nextState = State.RECOVERED
             else:
                 resistanceChance = random.random() * 100
-                if (resistanceChance <= self.gain_resistance_chance):
+                if (resistanceChance <= self.gainResistChance):
                     self.nextState = State.RESISTANT
                 else:
                     self.setNextState(State.INFECTED)

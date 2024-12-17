@@ -104,6 +104,10 @@ class Map:
                 
         print("total connections: ", totalConnections)
         print("Number of connections created: ", currentConnections)
+        
+    # method to calculate the euclidean distance between two nodes
+    def getDistance(self, node1, node2):
+        return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5
     
     # method to infect nodes at the start of the simulation
     def infectNodes(self):
@@ -134,9 +138,5 @@ class Map:
             self.isEnd = True
         
         self.canvas.after(self.speed, self.tick)
-        
-    # method to calculate the euclidean distance between two nodes
-    def getDistance(self, node1, node2):
-        return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5
                 
                 
