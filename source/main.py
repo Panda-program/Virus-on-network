@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
-from map import Map
+import tkinter.ttk as ttk
 from ui import UI
 
 # Constants for window size

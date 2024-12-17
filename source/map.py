@@ -1,5 +1,5 @@
 import random
-from node import Node, State
+from device import Node, State
 
 """
     Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.
