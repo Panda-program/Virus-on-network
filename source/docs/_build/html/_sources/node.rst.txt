@@ -1,7 +1,7 @@
-conf module
+node module
 ===========
 
-.. automodule:: conf
+.. automodule:: node
    :members:
    :undoc-members:
    :show-inheritance:
