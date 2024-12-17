@@ -158,6 +158,32 @@ This recursive method is the main loop of the simulation whitch does the followi
 - **Type:** `float`
 - **Description:** Chance of node after not being able to recover to gain resistance against the virus
 
+#### `tickCount`
+- **Type:** `int`
+- **Description**: number of ticks happened
+
+#### `connections`
+- **Type:** `array (Connection)`
+- **Description**: list of connections
+
+#### `neighbors`
+- **Type:** `array (Node)`
+- **Description**: list of neighbor nodes
+
+#### `nextState`
+- **Type:** `State`
+- **Description**: the State which will node have in next tick
+
+#### `width`
+- **Type:** `int`
+- **Description**: Width of the visual circle representing node
+
+#### `circle`
+- **Type:** `int`
+- **Description**: ID of the created circle on the canvas 
+
+### Methods
+
 ## `Connection`
 
 ## `State`
