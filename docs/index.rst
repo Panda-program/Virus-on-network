@@ -1,9 +1,9 @@
-.. Virus on network documentation master file, created by
-   sphinx-quickstart on Tue Dec 17 14:52:50 2024.
+.. Virus on Network documentation master file, created by
+   sphinx-quickstart on Tue Dec 17 14:59:15 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Virus on network documentation
+Virus on Network documentation
 ==============================
 
 Add your content using ``reStructuredText`` syntax. See the
