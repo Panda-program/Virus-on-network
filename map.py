@@ -7,7 +7,7 @@ from node import Node, State
 
 class Map:
     # Constructor for the Map class
-    def __init__(self, canvas, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
+    def __init__(self, canvas):
         """
             Parameters:
             canvas: The canvas object to draw the nodes and connections on
@@ -20,10 +20,25 @@ class Map:
             recoveryChance: The chance of an infected node recovering
             gainResistChance: The chance of a recovered node gaining resistance to the virus
         """
-        self.speed = speed
+        self.numberOfNodes = 0
+        self.avgNodeDegree = 0
+        self.initialOutbreakSize = 0
+        self.virusSpreadChance = 0
+        self.virusCheckFreq = 0
+        self.recoveryChance = 0
+        self.gainResistChance = 0
+        
+        self.speed = 0
         self.canvas = canvas
         self.width = 700
         self.height = 700
+        
+        self.nodes = []
+        self.isLoaded = False
+        self.isEnd = False
+        
+    # Setup method for initializing the map for simulation
+    def setup(self, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
         self.numberOfNodes = numberOfNodes
         self.avgNodeDegree = avgNodeDegree
         self.initialOutbreakSize = initialOutbreakSize
@@ -31,13 +46,7 @@ class Map:
         self.virusCheckFreq = virusCheckFreq
         self.recoveryChance = recoveryChance
         self.gainResistChance = gainResistChance
-        
-        self.nodes = []
-        self.isLoaded = False
-        self.isEnd = False
-        
-    # Setup method for initializing the map for simulation
-    def setup(self):
+        self.speed = speed
         # Reset the map if already loaded
         if self.isLoaded:
             self.reset()
@@ -119,23 +128,27 @@ class Map:
     
     # recursive method which handles the simulation loop
     def tick(self):
-        if (self.isEnd or self.isLoaded == False):
+        if (self.isEnd == True or self.isLoaded == False):
             return
-        infectedCount = 0
         
+        infectedCount = 0
         for node in self.nodes:
             node.tick()
         for node in self.nodes:
             node.check()
             if (node.state == State.INFECTED):
                 infectedCount += 1
-
-        # check if the simulation has ended
-        if (self.isEnd):
-            print("The simulation has ended")
-            return
+                
         if (infectedCount == 0):
             self.isEnd = True
+            for x in range (2):
+                for node in self.nodes:
+                    node.tick()
+                for node in self.nodes:
+                    node.check()
+            print("The simulation has ended")
+            
+        print("Number of infected nodes: ", infectedCount)
         
         self.canvas.after(self.speed, self.tick)
                 
