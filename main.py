@@ -21,7 +21,7 @@ def setup_ui(root):
 
 # Main application
 def main():
-    number_of_nodes = 100
+    number_of_nodes = 200
     avg_node_degree = 3
     initial_outbreak_size = 20
     virus_spread_chance = 20.0
@@ -36,6 +36,8 @@ def main():
     setup_ui(root)
     
     map = Map(canvas, speed, number_of_nodes, avg_node_degree, initial_outbreak_size, virus_spread_chance, virus_check_frequency, recovery_chance, gain_resistance_chance)
+    map.setup()
+    map.tick()
     while(map.isMapLoaded == False):
         pass
     
