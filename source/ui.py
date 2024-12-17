@@ -1,4 +1,4 @@
-from map import Map
+from network import Map
 
 class UI:
     def __init__(self, root, canvas, frame, tk, ttk):

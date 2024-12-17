@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>network &mdash; Virus on network 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Virus on network
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">source</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Virus on network</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for network</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+
+
+
+<div class="viewcode-block" id="Map">
+<a class="viewcode-back" href="../network.html#network.Map">[docs]</a>
+<span class="k">class</span> <span class="nc">Map</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Constructor for the Map class</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. :param canvas: The canvas object to draw the nodes and connections on.</span>
+<span class="sd">            .. :type canvas: tkinter.Canvas</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numberOfNodes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgNodeDegree</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialOutbreakSize</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusSpreadChance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusCheckFreq</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recoveryChance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gainResistChance</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">canvas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">700</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">700</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEnd</span> <span class="o">=</span> <span class="kc">False</span>
+        
+<div class="viewcode-block" id="Map.setup">
+<a class="viewcode-back" href="../network.html#network.Map.setup">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">,</span> <span class="n">numberOfNodes</span><span class="p">,</span> <span class="n">avgNodeDegree</span><span class="p">,</span> <span class="n">initialOutbreakSize</span><span class="p">,</span> <span class="n">virusSpreadChance</span><span class="p">,</span> <span class="n">virusCheckFreq</span><span class="p">,</span> <span class="n">recoveryChance</span><span class="p">,</span> <span class="n">gainResistChance</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the map for the simulation with the given parameters.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            :param: speed: The speed of the simulation in milliseconds.</span>
+<span class="sd">            :type: speed: int</span>
+<span class="sd">            numberOfNodes (int): The number of nodes to create.</span>
+<span class="sd">            avgNodeDegree (int): The average number of connections each node should have.</span>
+<span class="sd">            initialOutbreakSize (int): The number of nodes to infect at the start of the simulation.</span>
+<span class="sd">            virusSpreadChance (float): The chance of the virus spreading to a neighbor node.</span>
+<span class="sd">            virusCheckFreq (int): The number of ticks between each virus spread check.</span>
+<span class="sd">            recoveryChance (float): The chance of an infected node recovering.</span>
+<span class="sd">            gainResistChance (float): The chance of a recovered node gaining resistance to the virus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numberOfNodes</span> <span class="o">=</span> <span class="n">numberOfNodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgNodeDegree</span> <span class="o">=</span> <span class="n">avgNodeDegree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialOutbreakSize</span> <span class="o">=</span> <span class="n">initialOutbreakSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusSpreadChance</span> <span class="o">=</span> <span class="n">virusSpreadChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusCheckFreq</span> <span class="o">=</span> <span class="n">virusCheckFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recoveryChance</span> <span class="o">=</span> <span class="n">recoveryChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gainResistChance</span> <span class="o">=</span> <span class="n">gainResistChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speed</span> <span class="o">=</span> <span class="n">speed</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">createMap</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createConnections</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infectNodes</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEnd</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+        
+<div class="viewcode-block" id="Map.createMap">
+<a class="viewcode-back" href="../network.html#network.Map.createMap">[docs]</a>
+    <span class="k">def</span> <span class="nf">createMap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates the nodes with random positions on the canvas.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numOfNodes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numberOfNodes</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">State</span><span class="o">.</span><span class="n">SUSCEPTIBLE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">virusSpreadChance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">virusCheckFreq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recoveryChance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gainResistChance</span><span class="p">))</span>
+            <span class="n">numOfNodes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of nodes created: &quot;</span><span class="p">,</span> <span class="n">numOfNodes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Map.reset">
+<a class="viewcode-back" href="../network.html#network.Map.reset">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Resets the map, clearing the canvas and nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isEnd</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="Map.isMapLoaded">
+<a class="viewcode-back" href="../network.html#network.Map.isMapLoaded">[docs]</a>
+    <span class="k">def</span> <span class="nf">isMapLoaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns whether the map has been loaded or not.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            bool: True if the map is loaded, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span></div>
+
+    
+<div class="viewcode-block" id="Map.createConnections">
+<a class="viewcode-back" href="../network.html#network.Map.createConnections">[docs]</a>
+    <span class="k">def</span> <span class="nf">createConnections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates connections between nodes based on the average node degree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">totalConnections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgNodeDegree</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">numberOfNodes</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">currentConnections</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">currentConnections</span> <span class="o">&lt;</span> <span class="n">totalConnections</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="n">nearestNode</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">nearestDistance</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">node</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">isNeighbor</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDistance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">nearestDistance</span> <span class="ow">and</span> <span class="n">n</span><span class="o">.</span><span class="n">getDegree</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgNodeDegree</span><span class="p">:</span>
+                        <span class="n">nearestNode</span> <span class="o">=</span> <span class="n">n</span>
+                        <span class="n">nearestDistance</span> <span class="o">=</span> <span class="n">distance</span>
+            
+            <span class="k">if</span> <span class="n">nearestNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">connection</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">createConnection</span><span class="p">(</span><span class="n">nearestNode</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">connection</span><span class="p">:</span>
+                    <span class="n">currentConnections</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total connections: &quot;</span><span class="p">,</span> <span class="n">totalConnections</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of connections created: &quot;</span><span class="p">,</span> <span class="n">currentConnections</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="Map.getDistance">
+<a class="viewcode-back" href="../network.html#network.Map.getDistance">[docs]</a>
+    <span class="k">def</span> <span class="nf">getDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Calculates the Euclidean distance between two nodes.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            node1 (Node): The first node.</span>
+<span class="sd">            node2 (Node): The second node.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            float: The Euclidean distance between the two nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">node1</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">node2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">node2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span></div>
+
+    
+<div class="viewcode-block" id="Map.infectNodes">
+<a class="viewcode-back" href="../network.html#network.Map.infectNodes">[docs]</a>
+    <span class="k">def</span> <span class="nf">infectNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Infects nodes at the start of the simulation based on the initial outbreak size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialOutbreakSize</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">SUSCEPTIBLE</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">setState</span><span class="p">(</span><span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">initialOutbreakSize</span> <span class="o">-=</span> <span class="mi">1</span></div>
+
+    
+<div class="viewcode-block" id="Map.tick">
+<a class="viewcode-back" href="../network.html#network.Map.tick">[docs]</a>
+    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Handles the simulation loop. Updates the states of nodes and checks for new infections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEnd</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLoaded</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="n">infectedCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">:</span>
+                <span class="n">infectedCount</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+        <span class="k">if</span> <span class="n">infectedCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">isEnd</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="n">node</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                    <span class="n">node</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The simulation has ended&quot;</span><span class="p">)</span>
+            
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of infected nodes: &quot;</span><span class="p">,</span> <span class="n">infectedCount</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tick</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a node in the simulation that can be in one of the following states:</span>
+<span class="sd">        SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">virusSpreadChance</span><span class="p">,</span> <span class="n">virusCheckFreq</span><span class="p">,</span> <span class="n">recoveryChance</span><span class="p">,</span> <span class="n">gainResistChance</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes the Node object.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            canvas (Canvas): The canvas object to draw the node on.</span>
+<span class="sd">            x (int): The x coordinate of the node.</span>
+<span class="sd">            y (int): The y coordinate of the node.</span>
+<span class="sd">            state (State): The initial state of the node.</span>
+<span class="sd">            virusSpreadChance (float): The chance of the virus spreading to a neighbor node.</span>
+<span class="sd">            virusCheckFreq (int): The number of ticks between each virus spread check.</span>
+<span class="sd">            recoveryChance (float): The chance of an infected node recovering.</span>
+<span class="sd">            gainResistChance (float): The chance of a recovered node gaining resistance to the virus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">canvas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusSpreadChance</span> <span class="o">=</span> <span class="n">virusSpreadChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">virusCheckFreq</span> <span class="o">=</span> <span class="n">virusCheckFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recoveryChance</span> <span class="o">=</span> <span class="n">recoveryChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gainResistChance</span> <span class="o">=</span> <span class="n">gainResistChance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tickCount</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">circle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">create_oval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;red&quot;</span> <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span> <span class="k">else</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">createConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Creates a connection between this node and a neighbor node.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            neighbor (Node): The neighboring node to connect to.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            bool: True if the connection was created successfully, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+        <span class="n">neighbor</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">def</span> <span class="nf">addConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="s1">&#39;Connection&#39;</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Adds an existing connection between this node and a neighbor.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            connection (Connection): The connection to add.</span>
+<span class="sd">            neighbor (Node): The neighboring node to add.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">isNeighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks if the given node is a neighbor of this node.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            node (Node): The node to check.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            bool: True if the node is a neighbor, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span>
+    
+    <span class="k">def</span> <span class="nf">getDegree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the number of neighbors this node has.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            int: The degree of the node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">getState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the current state of the node.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            State: The current state of the node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+    
+    <span class="k">def</span> <span class="nf">setState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="s1">&#39;State&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Sets the state of the node.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            state (State): The state to set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+    
+    <span class="k">def</span> <span class="nf">setNextState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="s1">&#39;State&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Sets the next state of the node.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            state (State): The state to set for the next tick.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="n">state</span>
+    
+    <span class="k">def</span> <span class="nf">infect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Infects the node and tries to infect its neighbors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circle</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="p">:</span>
+            <span class="n">infectedChance</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="k">if</span> <span class="n">infectedChance</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">virusSpreadChance</span><span class="p">:</span>
+                <span class="n">neighbor</span><span class="o">.</span><span class="n">setNextState</span><span class="p">(</span><span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">)</span>
+                
+    <span class="k">def</span> <span class="nf">recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Makes the node recover and return to the susceptible state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">SUSCEPTIBLE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circle</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">becomeResistant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Makes the node resistant to the virus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circle</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks the current state of the node and updates the next state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tickCount</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">virusCheckFreq</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+                <span class="k">return</span>
+            <span class="n">recoveryChance</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="k">if</span> <span class="n">recoveryChance</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recoveryChance</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">RECOVERED</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">resistanceChance</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+                <span class="k">if</span> <span class="n">resistanceChance</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gainResistChance</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">setNextState</span><span class="p">(</span><span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Updates the state of the node based on its current state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tickCount</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">becomeResistant</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RECOVERED</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recover</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">infect</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">SUSCEPTIBLE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">circle</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="n">SUSCEPTIBLE</span>
+        
+        <span class="k">for</span> <span class="n">connection</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connections</span><span class="p">:</span>
+            <span class="n">connection</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nextState</span>
+
+
+<span class="k">class</span> <span class="nc">Connection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a connection between two nodes, visualized as a line on the canvas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node1</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="n">node2</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="n">canvas</span><span class="p">:</span> <span class="s1">&#39;Canvas&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initializes a connection between two nodes.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            node1 (Node): The first node in the connection.</span>
+<span class="sd">            node2 (Node): The second node in the connection.</span>
+<span class="sd">            canvas (Canvas): The canvas object to draw the connection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">canvas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connectionLine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                                                      <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">tag_lower</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectionLine</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">hasNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="s1">&#39;Node&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks if the connection includes the given node.</span>
+
+<span class="sd">            Parameters:</span>
+<span class="sd">            node (Node): The node to check.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            bool: True if the node is in the connection, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">getFirstNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the first node in the connection.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            Node: The first node in the connection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">getSecondNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the second node in the connection.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">            Node: The second node in the connection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Updates the visual representation of the connection based on the nodes&#39; states.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">RESISTANT</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectionLine</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">State</span><span class="o">.</span><span class="n">INFECTED</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectionLine</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">itemconfig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connectionLine</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">State</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents the different possible states a node can be in during the simulation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SUSCEPTIBLE</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">INFECTED</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">RECOVERED</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">RESISTANT</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Timotej Vronč, Mykola Zub, Damián Košút.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

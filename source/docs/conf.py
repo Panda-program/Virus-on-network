@@ -8,21 +8,21 @@
 
 import os
 import sys
-
 sys.path.insert(0, os.path.abspath('..'))
 
 project = 'Virus on network'
-copyright = '2024, Timotej Vronc'
-author = 'Timotej Vronc'
+copyright = '2024, Timotej Vronč, Mykola Zub, Damián Košút'
+author = 'Timotej Vronč, Mykola Zub, Damián Košút'
 release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = ["sphinx.ext.todo", "sphinx.ext.viewcode", "sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+autodoc_mock_imports = ['tkinter']
 
 
 

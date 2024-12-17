@@ -2,9 +2,9 @@ source
 ======
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
+   network
    main
-   map
-   node
    ui
+

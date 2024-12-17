@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Network module" href="network.html" />
+    <link rel="prev" title="Virus on network documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,11 +42,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="map.html">Map Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node.html">node module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ui.html">ui module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">source</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">ui module</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -75,25 +80,23 @@
 <h1>source<a class="headerlink" href="#source" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="map.html">Map Class</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="map.html#class-definition">Class Definition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="map.html#attributes">Attributes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="map.html#methods">Methods</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="map.html#init__"><code class="docutils literal notranslate"><span class="pre">__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#setup"><code class="docutils literal notranslate"><span class="pre">setup()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#createMap"><code class="docutils literal notranslate"><span class="pre">createMap()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#reset"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#createConnections"><code class="docutils literal notranslate"><span class="pre">createConnections()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#getDistance"><code class="docutils literal notranslate"><span class="pre">getDistance()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#infectNodes"><code class="docutils literal notranslate"><span class="pre">infectNodes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="map.html#tick"><code class="docutils literal notranslate"><span class="pre">tick()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">Network module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="network.html#network.Connection"><code class="docutils literal notranslate"><span class="pre">Connection</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#network.Map"><code class="docutils literal notranslate"><span class="pre">Map</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#network.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html#network.State"><code class="docutils literal notranslate"><span class="pre">State</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="main.html#main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#main.setup_canvas"><code class="docutils literal notranslate"><span class="pre">setup_canvas()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html#main.setup_ui"><code class="docutils literal notranslate"><span class="pre">setup_ui()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="node.html">node module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ui.html">ui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui.html">ui module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ui.html#ui.UI"><code class="docutils literal notranslate"><span class="pre">UI</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -101,12 +104,15 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Virus on network documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral float-right" title="Network module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Timotej Vronc.</p>
+    <p>&#169; Copyright 2024, Timotej Vronč, Mykola Zub, Damián Košút.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
