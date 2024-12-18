@@ -11,8 +11,8 @@ class Map:
     :ivar int avgNodeDegree: The average number of connections each node should have.
     :ivar int initialOutbreakSize: The number of nodes to infect at the start of the simulation.
     :ivar int speed: Time for each tick in milliseconds.
-    :ivar int WIDTH: width of the map
-    :ivar int HEIGHT: height of the map
+    :ivar int width: width of the map
+    :ivar int height: height of the map
     :ivar list[Connection] connections: A list of connections between nodes.
     :ivar list[Node] nodes: A list of nodes in the simulation.
     :ivar bool isLoaded: True -> map is loaded, False -> not loaded.
@@ -36,8 +36,8 @@ class Map:
         self.initialOutbreakSize = 0
         
         self.speed = 0
-        self.WIDTH = 700
-        self.HEIGHT = 700
+        self.width = 700
+        self.height = 700
         
         self.nodes = []
         self.isLoaded = False
@@ -79,8 +79,8 @@ class Map:
         """
         numOfNodes = 0
         for i in range(self.numberOfNodes):
-            x = random.randint(0, self.WIDTH - 1)
-            y = random.randint(0, self.HEIGHT - 1)
+            x = random.randint(0, self.width - 1)
+            y = random.randint(0, self.height - 1)
             self.nodes.append(Node(self.canvas, x, y, State.SUSCEPTIBLE, self.virusSpreadChance, self.virusCheckFreq, self.recoveryChance, self.gainResistChance))
             numOfNodes += 1
         print("Number of nodes created: ", numOfNodes)
@@ -209,7 +209,7 @@ class Node:
         :ivar int tickCount: The number of ticks since the node was created.
         :ivar list[Connection] connections: A list of connections to neighboring nodes.
         :ivar list[Node] neighbors: A list of neighboring nodes.
-        :ivar int WIDTH: The width of the circle representing the node.
+        :ivar int width: The width of the circle representing the node.
         :ivar int circle: The id of the circle object on the canvas.
         
         
@@ -232,8 +232,8 @@ class Node:
         self.connections = []
         self.neighbors = []
         self.nextState = None
-        self.WIDTH = 12
-        self.circle = self.canvas.create_oval(x, y, x + self.WIDTH, y + self.WIDTH, outline="", fill="red" if state == State.INFECTED else "blue")
+        self.width = 12
+        self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
     
     def createConnection(self, neighbor: 'Node'):
         """
@@ -391,11 +391,11 @@ class Connection:
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
         self.nodes = [node1, node2]
         self.canvas = canvas
-        self.connectionLine = self.canvas.create_line(self.nodes[0].x + self.nodes[0].WIDTH / 2,
-                                                      self.nodes[0].y + self.nodes[0].WIDTH / 2,
-                                                      self.nodes[1].x + self.nodes[1].WIDTH / 2,
-                                                      self.nodes[1].y + self.nodes[1].WIDTH / 2,
-                                                      WIDTH=1, fill="white")
+        self.connectionLine = self.canvas.create_line(self.nodes[0].x + self.nodes[0].width / 2,
+                                                      self.nodes[0].y + self.nodes[0].width / 2,
+                                                      self.nodes[1].x + self.nodes[1].width / 2,
+                                                      self.nodes[1].y + self.nodes[1].width / 2,
+                                                      width=1, fill="white")
         canvas.tag_lower(self.connectionLine)
     
     def hasNode(self, node: 'Node'):
