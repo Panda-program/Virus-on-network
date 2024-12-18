@@ -1,7 +1,4 @@
 import random
-
-
-
 class Map:
     """
     Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.
@@ -109,7 +106,6 @@ class Map:
                 - checks if the nearest node is already int the neighbors[] list of the selected node
                     - if not, creates a connection between the two nodes
                 - repeats until the total number of connections is reached
-                
                 
         """
         totalConnections = self.avgNodeDegree * self.numberOfNodes // 2
