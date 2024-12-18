@@ -1,0 +1,9 @@
+Pillow
+numpy
+requests
+matplotlib
+Sphinx
+sphinx-rtd-theme
+docutils
+Pygments
+Jinja2
