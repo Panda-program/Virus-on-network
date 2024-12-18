@@ -7,6 +7,10 @@ This is a semester project, a recreation of the NetLogo Virus on Network model, 
 - **Timotej Vronč**
 - **Mykola Zub**
 - **Damián Košút**
+
+## Documentation
+Documentation can be found in `source/docs/_build/html/index.html`. Created with Sphinx.
+
 ## Requirements
 
 To get started, make sure you have the following installed:
