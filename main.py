@@ -1,6 +1,5 @@
 import tkinter as tk
-from map import Map
-import time
+from tkinter import ttk
 
 # Constants for window size
 WIDTH = 1040
