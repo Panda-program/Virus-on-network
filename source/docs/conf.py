@@ -23,6 +23,13 @@ extensions = ["sphinx.ext.todo", "sphinx.ext.viewcode", "sphinx.ext.autodoc", "s
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 autodoc_mock_imports = ['tkinter']
+autodoc_default_options = {
+    'members': True,           # Include documented members
+    'undoc-members': True,     # Include undocumented members (including attributes)
+    'private-members': True,   # Include "private" members starting with _
+    'show-inheritance': True,  # Show class inheritance
+    'inherited-members': True, # Include inherited members in the documentation
+}
 
 
 
