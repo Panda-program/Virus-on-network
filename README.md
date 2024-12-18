@@ -28,18 +28,14 @@ To install the dependencies, follow these steps:
    git clone <repository-url>
    cd <repository-folder>
     ```
-2. Install the required dependencies using the setup.bat file:
-
-    Simply double-click `setup.bat` to install all necessary dependencies.
+2. Install the required dependencies:
 
     Alternatively, you can run this command manually:
     ```bash
     pip install -r requirements.txt
     ```
 ## Running the Simulation
-To start the simulation, run the `start.bat` file located in the root folder. This will execute the `main.py` script located in the source folder.
-
-Alternatively, you can run the main script manually by navigating to the source folder and running:
+To start the simulation navigate to the `source` folder and run:
 
 ```bash
     python main.py
