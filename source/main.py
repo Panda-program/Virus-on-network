@@ -16,6 +16,7 @@ class MainApp:
         Initializes the application with the given tkinter root window.
 
         :param root: The root tkinter window.
+        :type root: tkinter.Tk
         """
         self.root = root
         self.root.title("Canvas and UI Example")

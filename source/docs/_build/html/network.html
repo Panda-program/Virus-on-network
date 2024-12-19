@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Network module &mdash; Virus on network 1.0.0 documentation</title>
+  <title>Network &mdash; Virus on network 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="main module" href="main.html" />
-    <link rel="prev" title="source" href="modules.html" /> 
+    <link rel="next" title="UI" href="ui.html" />
+    <link rel="prev" title="Modules" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,8 +44,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">source</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Network module</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Setup &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">Main Script</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Network</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#network.Connection"><code class="docutils literal notranslate"><span class="pre">Connection</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#network.Connection.check"><code class="docutils literal notranslate"><span class="pre">Connection.check()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#network.Connection.getFirstNode"><code class="docutils literal notranslate"><span class="pre">Connection.getFirstNode()</span></code></a></li>
@@ -88,10 +90,10 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ui.html">ui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ui.html">UI</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html">Dependencies</a></li>
 </ul>
 
         </div>
@@ -108,8 +110,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">source</a></li>
-      <li class="breadcrumb-item active">Network module</li>
+          <li class="breadcrumb-item"><a href="modules.html">Modules</a></li>
+      <li class="breadcrumb-item active">Network</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/network.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -120,19 +122,21 @@
            <div itemprop="articleBody">
              
   <section id="module-network">
-<span id="network-module"></span><h1>Network module<a class="headerlink" href="#module-network" title="Link to this heading"></a></h1>
+<span id="network"></span><h1>Network<a class="headerlink" href="#module-network" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="network.Connection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">network.</span></span><span class="sig-name descname"><span class="pre">Connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#network.Node" title="network.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">node2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#network.Node" title="network.Node"><span class="pre">Node</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">canvas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Canvas</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network.html#Connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#network.Connection" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents a connection between two nodes, visualized as a line on the canvas.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> (<em>list</em><em>[</em><a class="reference internal" href="#network.Node" title="network.Node"><em>Node</em></a><em>]</em>) – A list of the two nodes connected by the connection.</p></li>
-<li><p><strong>canvas</strong> (<em>tkinter.Canvas</em>) – The canvas object to draw the connection on.</p></li>
-<li><p><strong>connectionLine</strong> (<em>int</em>) – The id of the line object on the canvas.</p></li>
-</ul>
+<dt class="field-odd">Attribute list[Node] nodes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of the two nodes connected by the connection.</p>
+</dd>
+<dt class="field-even">Attribute tkinter.Canvas canvas<span class="colon">:</span></dt>
+<dd class="field-even"><p>The canvas object to draw the connection on.</p>
+</dd>
+<dt class="field-odd">Attribute int connectionLine<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The id of the line object on the canvas.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -191,20 +195,38 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>canvas</strong> (<em>tkinter.Canvas</em>) – The canvas object to draw the nodes and connections on.</p></li>
-<li><p><strong>numberOfNodes</strong> (<em>int</em>) – The number of nodes in the simulation.</p></li>
-<li><p><strong>avgNodeDegree</strong> (<em>int</em>) – The average number of connections each node should have.</p></li>
-<li><p><strong>initialOutbreakSize</strong> (<em>int</em>) – The number of nodes to infect at the start of the simulation.</p></li>
-<li><p><strong>speed</strong> (<em>int</em>) – Time for each tick in milliseconds.</p></li>
-<li><p><strong>width</strong> (<em>int</em>) – width of the map</p></li>
-<li><p><strong>height</strong> (<em>int</em>) – height of the map</p></li>
-<li><p><strong>connections</strong> (<em>list</em><em>[</em><a class="reference internal" href="#network.Connection" title="network.Connection"><em>Connection</em></a><em>]</em>) – A list of connections between nodes.</p></li>
-<li><p><strong>nodes</strong> (<em>list</em><em>[</em><a class="reference internal" href="#network.Node" title="network.Node"><em>Node</em></a><em>]</em>) – A list of nodes in the simulation.</p></li>
-<li><p><strong>isLoaded</strong> (<em>bool</em>) – True -&gt; map is loaded, False -&gt; not loaded.</p></li>
-<li><p><strong>isEnd</strong> (<em>bool</em>) – True -&gt; simulation has ended, False -&gt; simulation si running</p></li>
-</ul>
+<dt class="field-odd">Attribute tkinter.Canvas canvas<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The canvas object to draw the nodes and connections on.</p>
+</dd>
+<dt class="field-even">Attribute int numberOfNodes<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of nodes in the simulation.</p>
+</dd>
+<dt class="field-odd">Attribute int avgNodeDegree<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The average number of connections each node should have.</p>
+</dd>
+<dt class="field-even">Attribute int initialOutbreakSize<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of nodes to infect at the start of the simulation.</p>
+</dd>
+<dt class="field-odd">Attribute int speed<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Time for each tick in milliseconds.</p>
+</dd>
+<dt class="field-even">Attribute int width<span class="colon">:</span></dt>
+<dd class="field-even"><p>width of the map</p>
+</dd>
+<dt class="field-odd">Attribute int height<span class="colon">:</span></dt>
+<dd class="field-odd"><p>height of the map</p>
+</dd>
+<dt class="field-even">Attribute list[Connection] connections<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of connections between nodes.</p>
+</dd>
+<dt class="field-odd">Attribute list[Node] nodes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of nodes in the simulation.</p>
+</dd>
+<dt class="field-even">Attribute bool isLoaded<span class="colon">:</span></dt>
+<dd class="field-even"><p>True -&gt; map is loaded, False -&gt; not loaded.</p>
+</dd>
+<dt class="field-odd">Attribute bool isEnd<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True -&gt; simulation has ended, False -&gt; simulation si running</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -310,23 +332,47 @@
 <p>Represents a device in the simulation that can be in one of the following states:
 SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>canvas</strong> (<em>tkinter.Canvas</em>) – The canvas object to draw the node on.</p></li>
-<li><p><strong>x</strong> (<em>int</em>) – The x coordinate of the node.</p></li>
-<li><p><strong>y</strong> (<em>int</em>) – The y coordinate of the node.</p></li>
-<li><p><strong>state</strong> (<a class="reference internal" href="#network.State" title="network.State"><em>State</em></a>) – The current state of the node.</p></li>
-<li><p><strong>nextState</strong> (<a class="reference internal" href="#network.State" title="network.State"><em>State</em></a>) – The next state of the node.</p></li>
-<li><p><strong>virusSpreadChance</strong> (<em>float</em>) – The chance of the virus spreading to a neighbor node.</p></li>
-<li><p><strong>virusCheckFreq</strong> (<em>int</em>) – The number of ticks between each check if node is infected.</p></li>
-<li><p><strong>recoveryChance</strong> (<em>float</em>) – The chance of an infected node recovering from the virus.</p></li>
-<li><p><strong>gainResistChance</strong> (<em>float</em>) – The chance of a infected node gaining resistance to the virus.</p></li>
-<li><p><strong>tickCount</strong> (<em>int</em>) – The number of ticks since the node was created.</p></li>
-<li><p><strong>connections</strong> (<em>list</em><em>[</em><a class="reference internal" href="#network.Connection" title="network.Connection"><em>Connection</em></a><em>]</em>) – A list of connections to neighboring nodes.</p></li>
-<li><p><strong>neighbors</strong> (<em>list</em><em>[</em><a class="reference internal" href="#network.Node" title="network.Node"><em>Node</em></a><em>]</em>) – A list of neighboring nodes.</p></li>
-<li><p><strong>width</strong> (<em>int</em>) – The width of the circle representing the node.</p></li>
-<li><p><strong>circle</strong> (<em>int</em>) – The id of the circle object on the canvas.</p></li>
-</ul>
+<dt class="field-odd">Attribute tkinter.Canvas canvas<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The canvas object to draw the node on.</p>
+</dd>
+<dt class="field-even">Attribute int x<span class="colon">:</span></dt>
+<dd class="field-even"><p>The x coordinate of the node.</p>
+</dd>
+<dt class="field-odd">Attribute int y<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The y coordinate of the node.</p>
+</dd>
+<dt class="field-even">Attribute State state<span class="colon">:</span></dt>
+<dd class="field-even"><p>The current state of the node.</p>
+</dd>
+<dt class="field-odd">Attribute State nextState<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The next state of the node.</p>
+</dd>
+<dt class="field-even">Attribute float virusSpreadChance<span class="colon">:</span></dt>
+<dd class="field-even"><p>The chance of the virus spreading to a neighbor node.</p>
+</dd>
+<dt class="field-odd">Attribute int virusCheckFreq<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of ticks between each check if node is infected.</p>
+</dd>
+<dt class="field-even">Attribute float recoveryChance<span class="colon">:</span></dt>
+<dd class="field-even"><p>The chance of an infected node recovering from the virus.</p>
+</dd>
+<dt class="field-odd">Attribute float gainResistChance<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The chance of a infected node gaining resistance to the virus.</p>
+</dd>
+<dt class="field-even">Attribute int tickCount<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of ticks since the node was created.</p>
+</dd>
+<dt class="field-odd">Attribute list[Connection] connections<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of connections to neighboring nodes.</p>
+</dd>
+<dt class="field-even">Attribute list[Node] neighbors<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of neighboring nodes.</p>
+</dd>
+<dt class="field-odd">Attribute int width<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The width of the circle representing the node.</p>
+</dd>
+<dt class="field-even">Attribute int circle<span class="colon">:</span></dt>
+<dd class="field-even"><p>The id of the circle object on the canvas.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -467,13 +513,17 @@ SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents the different possible states a node can be in during the simulation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>SUSCEPTIBLE</strong> (<em>int</em>) – Node can be infected by virus</p></li>
-<li><p><strong>INFECTED</strong> (<em>int</em>) – Node is infected by virus</p></li>
-<li><p><strong>RECOVERED</strong> (<em>int</em>) – Node has recovered from virus</p></li>
-<li><p><strong>RESISTANT</strong> (<em>int</em>) – Node is resistant to virus</p></li>
-</ul>
+<dt class="field-odd">Attribute SUSCEPTIBLE<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Node can be infected by virus</p>
+</dd>
+<dt class="field-even">Attribute INFECTED<span class="colon">:</span></dt>
+<dd class="field-even"><p>Node is infected by virus</p>
+</dd>
+<dt class="field-odd">Attribute RECOVERED<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Node has recovered from virus</p>
+</dd>
+<dt class="field-even">Attribute RESISTANT<span class="colon">:</span></dt>
+<dd class="field-even"><p>Node is resistant to virus</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -504,8 +554,8 @@ SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="source" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ui.html" class="btn btn-neutral float-right" title="UI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
