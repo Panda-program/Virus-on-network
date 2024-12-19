@@ -41,7 +41,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Setup &amp; Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../main.html">Main Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dependencies.html">Dependencies</a></li>
 </ul>
 
         </div>
@@ -77,36 +80,74 @@
 <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">1200</span>
 <span class="n">HEIGHT</span> <span class="o">=</span> <span class="mi">720</span>
 
+<div class="viewcode-block" id="MainApp">
+<a class="viewcode-back" href="../main.html#main.MainApp">[docs]</a>
+<span class="k">class</span> <span class="nc">MainApp</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main application class that sets up the tkinter window, canvas, and UI elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="setup_canvas">
-<a class="viewcode-back" href="../main.html#main.setup_canvas">[docs]</a>
-<span class="k">def</span> <span class="nf">setup_canvas</span><span class="p">(</span><span class="n">root</span><span class="p">):</span> <span class="c1"># Method for canvas</span>
-    <span class="n">canvas_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    <span class="n">canvas_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># frame for canvas</span>
-    <span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">canvas_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">WIDTH</span> <span class="o">-</span> <span class="mi">400</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">HEIGHT</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span> <span class="c1">#canvas for canvas_frame</span>
-    <span class="n">canvas</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">canvas</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the application with the given tkinter root window.</span>
+
+<span class="sd">        :param root: The root tkinter window.</span>
+<span class="sd">        :type root: tkinter.Tk</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Canvas and UI Example&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_canvas</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_ui</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MainApp.setup_canvas">
+<a class="viewcode-back" href="../main.html#main.MainApp.setup_canvas">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup_canvas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets up the canvas for drawing.</span>
+
+<span class="sd">        :returns: A tkinter Canvas object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">canvas_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">canvas_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># frame for canvas</span>
+        <span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">canvas_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">WIDTH</span> <span class="o">-</span> <span class="mi">400</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">HEIGHT</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>  <span class="c1"># canvas for canvas_frame</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">canvas</span></div>
 
 
-<span class="c1"># Method for UI</span>
-<div class="viewcode-block" id="setup_ui">
-<a class="viewcode-back" href="../main.html#main.setup_ui">[docs]</a>
-<span class="k">def</span> <span class="nf">setup_ui</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
-    <span class="n">ui_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">ui_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span>
-    <span class="n">ui</span> <span class="o">=</span> <span class="n">UI</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">ui_frame</span><span class="p">,</span> <span class="n">tk</span><span class="p">,</span> <span class="n">ttk</span><span class="p">)</span>
-    <span class="n">ui</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span></div>
+<div class="viewcode-block" id="MainApp.setup_ui">
+<a class="viewcode-back" href="../main.html#main.MainApp.setup_ui">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup_ui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets up the UI elements on the left side of the window.</span>
+
+<span class="sd">        Creates a UI object and calls its setup method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ui_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        <span class="n">ui_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span>
+        <span class="n">ui</span> <span class="o">=</span> <span class="n">UI</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="n">ui_frame</span><span class="p">,</span> <span class="n">tk</span><span class="p">,</span> <span class="n">ttk</span><span class="p">)</span>
+        <span class="n">ui</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span></div>
 
 
-<span class="c1"># Main application</span>
+<div class="viewcode-block" id="MainApp.run">
+<a class="viewcode-back" href="../main.html#main.MainApp.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the main event loop of the tkinter application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
+</div>
+
+
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../main.html#main.main">[docs]</a>
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates the root tkinter window, initializes the MainApp, and runs the application.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
-    <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Canvas and UI Example&quot;</span><span class="p">)</span>
-    <span class="n">canvas</span> <span class="o">=</span> <span class="n">setup_canvas</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-    <span class="n">setup_ui</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
-    <span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">MainApp</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>

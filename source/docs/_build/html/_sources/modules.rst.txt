@@ -1,10 +1,9 @@
-source
-======
+Modules
+=======
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    network
-   main
    ui
 
