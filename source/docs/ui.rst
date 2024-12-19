@@ -1,4 +1,4 @@
-ui module
+UI
 =========
 
 .. automodule:: ui
