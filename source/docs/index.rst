@@ -6,14 +6,22 @@
 Virus on network documentation
 ==============================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+This is a semester project, a recreation of the NetLogo Virus on Network model, implemented in Python. The model simulates the spread of a virus through a network of nodes. Each node can be in a susceptible, infected, or resistant state, and the simulation allows the tracking of how the virus spreads and how nodes interact with each other.
+
+Authors
+-------
+- Timotej Vronč
+- Mykola Zub
+- Damián Košút
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
    
+   usage
+   main
    modules
+   dependencies
+
 
