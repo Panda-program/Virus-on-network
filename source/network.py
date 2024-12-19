@@ -3,17 +3,17 @@ class Map:
     """
     Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.
     
-    :ivar tkinter.Canvas canvas: The canvas object to draw the nodes and connections on.
-    :ivar int numberOfNodes: The number of nodes in the simulation.
-    :ivar int avgNodeDegree: The average number of connections each node should have.
-    :ivar int initialOutbreakSize: The number of nodes to infect at the start of the simulation.
-    :ivar int speed: Time for each tick in milliseconds.
-    :ivar int width: width of the map
-    :ivar int height: height of the map
-    :ivar list[Connection] connections: A list of connections between nodes.
-    :ivar list[Node] nodes: A list of nodes in the simulation.
-    :ivar bool isLoaded: True -> map is loaded, False -> not loaded.
-    :ivar bool isEnd: True -> simulation has ended, False -> simulation si running
+    :attribute tkinter.Canvas canvas: The canvas object to draw the nodes and connections on.
+    :attribute int numberOfNodes: The number of nodes in the simulation.
+    :attribute int avgNodeDegree: The average number of connections each node should have.
+    :attribute int initialOutbreakSize: The number of nodes to infect at the start of the simulation.
+    :attribute int speed: Time for each tick in milliseconds.
+    :attribute int width: width of the map
+    :attribute int height: height of the map
+    :attribute list[Connection] connections: A list of connections between nodes.
+    :attribute list[Node] nodes: A list of nodes in the simulation.
+    :attribute bool isLoaded: True -> map is loaded, False -> not loaded.
+    :attribute bool isEnd: True -> simulation has ended, False -> simulation si running
     
     """
     # Constructor for the Map class
@@ -193,20 +193,20 @@ class Node:
         Represents a device in the simulation that can be in one of the following states:
         SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.
         
-        :ivar tkinter.Canvas canvas: The canvas object to draw the node on.
-        :ivar int x: The x coordinate of the node.
-        :ivar int y: The y coordinate of the node.
-        :ivar State state: The current state of the node.
-        :ivar State nextState: The next state of the node.
-        :ivar float virusSpreadChance: The chance of the virus spreading to a neighbor node.
-        :ivar int virusCheckFreq: The number of ticks between each check if node is infected.
-        :ivar float recoveryChance: The chance of an infected node recovering from the virus.
-        :ivar float gainResistChance: The chance of a infected node gaining resistance to the virus.
-        :ivar int tickCount: The number of ticks since the node was created.
-        :ivar list[Connection] connections: A list of connections to neighboring nodes.
-        :ivar list[Node] neighbors: A list of neighboring nodes.
-        :ivar int width: The width of the circle representing the node.
-        :ivar int circle: The id of the circle object on the canvas.
+        :attribute tkinter.Canvas canvas: The canvas object to draw the node on.
+        :attribute int x: The x coordinate of the node.
+        :attribute int y: The y coordinate of the node.
+        :attribute State state: The current state of the node.
+        :attribute State nextState: The next state of the node.
+        :attribute float virusSpreadChance: The chance of the virus spreading to a neighbor node.
+        :attribute int virusCheckFreq: The number of ticks between each check if node is infected.
+        :attribute float recoveryChance: The chance of an infected node recovering from the virus.
+        :attribute float gainResistChance: The chance of a infected node gaining resistance to the virus.
+        :attribute int tickCount: The number of ticks since the node was created.
+        :attribute list[Connection] connections: A list of connections to neighboring nodes.
+        :attribute list[Node] neighbors: A list of neighboring nodes.
+        :attribute int width: The width of the circle representing the node.
+        :attribute int circle: The id of the circle object on the canvas.
         
         
     """
@@ -379,9 +379,9 @@ class Connection:
     """
         Represents a connection between two nodes, visualized as a line on the canvas.
         
-        :ivar list[Node] nodes: A list of the two nodes connected by the connection.
-        :ivar tkinter.Canvas canvas: The canvas object to draw the connection on.
-        :ivar int connectionLine: The id of the line object on the canvas.
+        :attribute list[Node] nodes: A list of the two nodes connected by the connection.
+        :attribute tkinter.Canvas canvas: The canvas object to draw the connection on.
+        :attribute int connectionLine: The id of the line object on the canvas.
         
     """
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
@@ -434,13 +434,13 @@ class State:
     """
     Represents the different possible states a node can be in during the simulation.
 
-    :ivar SUSCEPTIBLE: Node can be infected by virus
+    :attribute SUSCEPTIBLE: Node can be infected by virus
     :vartype SUSCEPTIBLE: int
-    :ivar INFECTED: Node is infected by virus
+    :attribute INFECTED: Node is infected by virus
     :vartype INFECTED: int
-    :ivar RECOVERED: Node has recovered from virus
+    :attribute RECOVERED: Node has recovered from virus
     :vartype RECOVERED: int
-    :ivar RESISTANT: Node is resistant to virus
+    :attribute RESISTANT: Node is resistant to virus
     :vartype RESISTANT: int
     """
 
