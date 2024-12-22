@@ -166,15 +166,12 @@ class Map:
         if self.isEnd or not self.isLoaded:
             return
         
-        infectedCount = 0
         for node in self.nodes:
             node.tick()
         for node in self.nodes:
             node.check()
-            if node.state == State.INFECTED:
-                infectedCount += 1
                 
-        if infectedCount == 0:
+        if self.getNumInfectedNodes() == 0:
             self.isEnd = True
             for _ in range(2):
                 for node in self.nodes:
@@ -183,9 +180,17 @@ class Map:
                     node.check()
             print("The simulation has ended")
             
-        print("Number of infected nodes: ", infectedCount)
+        print("Number of infected nodes: ", self.getNumInfectedNodes())
         
         self.canvas.after(self.speed, self.tick)
+        
+    
+    def getNumInfectedNodes(self):
+        """
+            :return: Number of infected nodes.
+            :rtype: list[Node]
+        """
+        return len([node for node in self.nodes if node.state == State.INFECTED])
 
 
 class Node:
