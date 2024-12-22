@@ -307,7 +307,31 @@ class Node:
         if self.state == State.RESISTANT:
             return
         self.nextState = state
+
+    def getNumberResistant(self):
+        """
+            :return: The number of resistant nodes.
+            :rtype: int
+        """
+        self.nextState = State.RESISTANT
+        return count(self)
     
+    def getNumberInfected(self):
+        """
+            :return: The number of infected nodes.
+            :rtype: int
+        """
+        self.nextState = State.INFECTED
+        return count(self)
+        
+    def getNumberSusceptible(self):
+        """
+            :return: The number of Susceptible nodes.
+            :rtype: int
+        """
+        self.nextState = State.SUSCEPTIBLE
+        return count(self)
+
     def infect(self):
         """
             Sets the circle color to red and infects neighboring nodes based on the virus spread chance.
