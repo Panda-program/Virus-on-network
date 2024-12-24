@@ -1,30 +1,8 @@
 import random
+# Represents the simulation map and manages the nodes and simulation loop.
 class Map:
-    """
-    Represents a simulation map, responsible for handling the creation of nodes and connections, as well as the simulation loop.
-    
-    :attribute tkinter.Canvas canvas: The canvas object to draw the nodes and connections on.
-    :attribute int numberOfNodes: The number of nodes in the simulation.
-    :attribute int avgNodeDegree: The average number of connections each node should have.
-    :attribute int initialOutbreakSize: The number of nodes to infect at the start of the simulation.
-    :attribute int speed: Time for each tick in milliseconds.
-    :attribute int width: width of the map
-    :attribute int height: height of the map
-    :attribute list[Connection] connections: A list of connections between nodes.
-    :attribute list[Node] nodes: A list of nodes in the simulation.
-    :attribute bool isLoaded: True -> map is loaded, False -> not loaded.
-    :attribute bool isEnd: True -> simulation has ended, False -> simulation si running
-    
-    """
     # Constructor for the Map class
     def __init__(self, canvas):
-        
-        ''' 
-            :param canvas: The canvas object to draw the map on.
-            :type canvas: tkinter.Canvas
-            
-            Creates a new Map object with the given canvas.
-        '''
         
         self.canvas = canvas
         
@@ -40,12 +18,8 @@ class Map:
         self.isLoaded = False
         self.isEnd = False
         
+    # Sets up the map and attributes for the simulation.
     def setup(self, speed, numberOfNodes, avgNodeDegree, initialOutbreakSize, virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
-        """
-            - Sets up the map and attributes for the simulation with the given parameters.
-            - Calls the createMap(), createConnections(), and infectNodes() methods to properly setup map.
-            - At the end performs the initial tick() and check() for each node to visually display the initial state of the simulation.
-        """
         self.numberOfNodes = numberOfNodes
         self.avgNodeDegree = avgNodeDegree
         self.initialOutbreakSize = initialOutbreakSize
@@ -69,11 +43,9 @@ class Map:
 
         self.isLoaded = True
         self.isEnd = False
-        
+    
+    # Creates nodes with random positions on the canvas.
     def createMap(self):
-        """
-            Creates nodes based with random positions on the canvas.
-        """
         numOfNodes = 0
         for i in range(self.numberOfNodes):
             x = random.randint(0, self.width - 1)
@@ -83,31 +55,16 @@ class Map:
         print("Number of nodes created: ", numOfNodes)
 
     def reset(self):
-        """
-            Resets the map, clearing the canvas and nodes[] list.
-        """
         self.isEnd = True
         self.isLoaded = False
         self.canvas.delete("all")
         self.nodes = []
 
     def isMapLoaded(self):
-        """
-            :return: isLoaded attribute of the Map object
-            :rtype: bool
-        """
         return self.isLoaded
     
+    # Creates connections between nodes based on the average node degree.
     def createConnections(self):
-        """
-            Creates connections between nodes based on the average node degree.
-                - calculates the total number of connections needed based on avgNodeDegree and numberOfNodes
-                - randomly selects a node and finds the nearest node to connect to
-                - checks if the nearest node is already int the neighbors[] list of the selected node
-                    - if not, creates a connection between the two nodes
-                - repeats until the total number of connections is reached
-                
-        """
         totalConnections = self.avgNodeDegree * self.numberOfNodes // 2
         currentConnections = 0
         
@@ -130,39 +87,21 @@ class Map:
 
         print("Total connections: ", totalConnections)
         print("Number of connections created: ", currentConnections)
-        
+    
+    # Calculates euclidean distance between two nodes
     def getDistance(self, node1, node2):
-        """
-        Calculates the Euclidean distance between two nodes.
-
-        :param node1: The first node.
-        :type node1: Node
-        :param node2: The second node.
-        :type node2: Node
-
-        :return: The Euclidean distance between the two nodes.
-        :rtype: float
-        """
         return ((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2) ** 0.5
 
-    
+    # Infects nodes based on the initial outbreak size.
     def infectNodes(self):
-        """
-            Infects nodes at the start of the simulation based on the initial outbreak size.
-        """
         while self.initialOutbreakSize > 0:
             node = random.choice(self.nodes)
             if node.state == State.SUSCEPTIBLE:
                 node.setState(State.INFECTED)
                 self.initialOutbreakSize -= 1
     
+    # Updates the simulation by ticking each node and checking for infections.
     def tick(self):
-        """
-            Handles the simulation loop.
-                - calls the tick() and check() method for each node in the nodes[] list
-                - checks if the simulation has ended (no more infected nodes)
-                - if the simulation has ended, runs two more ticks and checks to prevent the visual representation from freezing
-        """
         if self.isEnd or not self.isLoaded:
             return
         
@@ -186,40 +125,12 @@ class Map:
         
     
     def getNumInfectedNodes(self):
-        """
-            :return: Number of infected nodes.
-            :rtype: list[Node]
-        """
         return len([node for node in self.nodes if node.state == State.INFECTED])
 
 
+# Represents a device in the simulation map.
 class Node:
-    """
-        Represents a device in the simulation that can be in one of the following states:
-        SUSCEPTIBLE, INFECTED, RECOVERED, or RESISTANT.
-        
-        :attribute tkinter.Canvas canvas: The canvas object to draw the node on.
-        :attribute int x: The x coordinate of the node.
-        :attribute int y: The y coordinate of the node.
-        :attribute State state: The current state of the node.
-        :attribute State nextState: The next state of the node.
-        :attribute float virusSpreadChance: The chance of the virus spreading to a neighbor node.
-        :attribute int virusCheckFreq: The number of ticks between each check if node is infected.
-        :attribute float recoveryChance: The chance of an infected node recovering from the virus.
-        :attribute float gainResistChance: The chance of a infected node gaining resistance to the virus.
-        :attribute int tickCount: The number of ticks since the node was created.
-        :attribute list[Connection] connections: A list of connections to neighboring nodes.
-        :attribute list[Node] neighbors: A list of neighboring nodes.
-        :attribute int width: The width of the circle representing the node.
-        :attribute int circle: The id of the circle object on the canvas.
-        
-        
-    """
     def __init__(self, canvas, x: 'int', y: 'int', state: 'State', virusSpreadChance, virusCheckFreq, recoveryChance, gainResistChance):
-        """
-            Initializes the Node object.
-
-        """
         self.canvas = canvas
         self.x = x
         self.y = y
@@ -236,16 +147,8 @@ class Node:
         self.width = 12
         self.circle = self.canvas.create_oval(x, y, x + self.width, y + self.width, outline="", fill="red" if state == State.INFECTED else "blue")
     
+    # Creates a connection between this node and a neighbor node.
     def createConnection(self, neighbor: 'Node'):
-        """
-            Creates a connection between this node and a neighbor node.
-            
-            :param neighbor: The neighboring node to connect to.
-            :type neighbor: Node
-            
-            :return: True -> connection was created, False -> neighbor is already in neighbors[] list.
-            :rtype: bool
-        """
         if neighbor in self.neighbors:
             return False
         self.neighbors.append(neighbor)
@@ -254,69 +157,31 @@ class Node:
         neighbor.addConnection(connection, self)
         return True
     
+    
     def addConnection(self, connection: 'Connection', neighbor: 'Node'):
-        """
-            Adds connection to the connections[] list and neighbor to the neighbors[] list if neighbor is not already in the neighbors[] list.
-            
-            :param connection: The connection to add.
-            :type connection: Connection
-            :param neighbor: The neighbor node to add.
-            :type neighbor: Node
-        """
         if neighbor not in self.neighbors:
             self.neighbors.append(neighbor)
             self.connections.append(connection)
 
     def isNeighbor(self, node: 'Node'):
-        """
-            Checks if the given node is a neighbor of this node.
-
-            :param node: The node to check.
-            :type node: Node
-
-            :return: True -> node is a neighbor, False -> node is not a neighbor.
-            :rtype: bool
-        """
         return node in self.neighbors
     
     def getDegree(self):
-        """
-            :return: The number of neighbors.
-            :rtype: int
-        """
         return len(self.neighbors)
     
     def getState(self):
-        """
-            :return: The current state of the node.
-            :rtype: State
-        """
         return self.state
     
     def setState(self, state: 'State'):
-        """
-            Sets current state of the node.
-
-            :param state: The state to set.
-            :type state: State
-        """
         self.state = state
     
     def setNextState(self, state: 'State'):
-        """
-            Sets the next state of the node if the current state is not RESISTANT.
-
-            :param state: The state to set.
-            :type state: State
-        """
         if self.state == State.RESISTANT:
             return
         self.nextState = state
     
+    # Infects the node and spreads the virus to its neighbors.
     def infect(self):
-        """
-            Sets the circle color to red and infects neighboring nodes based on the virus spread chance.
-        """
         self.canvas.itemconfig(self.circle, fill="red")
         for neighbor in self.neighbors:
             infectedChance = random.random() * 100
@@ -324,23 +189,15 @@ class Node:
                 neighbor.setNextState(State.INFECTED)
                 
     def recover(self):
-        """
-            Sets the nodes nextState to SUSCEPTIBLE and the circle color to blue.
-        """
         self.nextState = State.SUSCEPTIBLE
         self.canvas.itemconfig(self.circle, fill="blue")
     
     def becomeResistant(self):
-        """
-            Sets the nodes state to RESISTANT and the circle color to grey.
-        """
         self.state = State.RESISTANT
         self.canvas.itemconfig(self.circle, fill="grey")
     
+    # Checks if the node should recover, gain resistance, or remain infected.
     def check(self):
-        """
-            Based on the current state of the node, updates the next state of the node.
-        """
         if self.state == State.RESISTANT:
             return
         elif self.state == State.INFECTED:
@@ -357,12 +214,8 @@ class Node:
                 else:
                     self.setNextState(State.INFECTED)
 
+    # Updates the node's state based on the current state and tick count.
     def tick(self):
-        """
-            - Calls appropriate methods to update node based on the current state of the node.
-            - If tickCount is a multiple of virusCheckFreq, the node checks if it is infected.
-            - Sets the state of the node to the next state.
-        """
         self.tickCount += 1
         if self.state == State.RESISTANT:
             self.becomeResistant()
@@ -380,15 +233,8 @@ class Node:
         self.state = self.nextState
 
 
+# Represents a connection between two nodes (devices) in the simulation map.
 class Connection:
-    """
-        Represents a connection between two nodes, visualized as a line on the canvas.
-        
-        :attribute list[Node] nodes: A list of the two nodes connected by the connection.
-        :attribute tkinter.Canvas canvas: The canvas object to draw the connection on.
-        :attribute int connectionLine: The id of the line object on the canvas.
-        
-    """
     def __init__(self, node1: 'Node', node2: 'Node', canvas: 'Canvas'):
         self.nodes = [node1, node2]
         self.canvas = canvas
@@ -400,33 +246,16 @@ class Connection:
         canvas.tag_lower(self.connectionLine)
     
     def hasNode(self, node: 'Node'):
-        """
-            :param node: The node to check.
-            :type node: Node
-            
-            :return: True -> node is in the nodes[] list, False -> node is not in the nodes[] list.
-            :rtype: bool
-        """
         return node in self.nodes
     
     def getFirstNode(self):
-        """
-            :return: The first node in the nodes[] list.
-            :rtype: Node
-        """
         return self.nodes[0]
     
     def getSecondNode(self):
-        """
-            :return: The second node in the nodes[] list.
-            :rtype: Node
-        """
         return self.nodes[1]
     
+    # Checks if the connection should be colored based on the state of the nodes.
     def check(self):
-        """
-            Updates the visual representation of the connection based on the nodes' states.
-        """
         if self.nodes[0].state == State.RESISTANT or self.nodes[1].state == State.RESISTANT:
             self.canvas.itemconfig(self.connectionLine, fill="grey")
         elif self.nodes[0].state == State.INFECTED or self.nodes[1].state == State.INFECTED:
@@ -435,20 +264,8 @@ class Connection:
             self.canvas.itemconfig(self.connectionLine, fill="white")
 
 
+# Enum class representing the possible states of a node in the simulation.
 class State:
-    """
-    Represents the different possible states a node can be in during the simulation.
-
-    :attribute SUSCEPTIBLE: Node can be infected by virus
-    :vartype SUSCEPTIBLE: int
-    :attribute INFECTED: Node is infected by virus
-    :vartype INFECTED: int
-    :attribute RECOVERED: Node has recovered from virus
-    :vartype RECOVERED: int
-    :attribute RESISTANT: Node is resistant to virus
-    :vartype RESISTANT: int
-    """
-
     SUSCEPTIBLE = 1
     INFECTED = 2
     RECOVERED = 3
