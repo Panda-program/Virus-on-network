@@ -1,0 +1,4 @@
+Graph module
+==============
+
+.. automodule:: graph

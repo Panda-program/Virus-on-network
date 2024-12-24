@@ -6,4 +6,5 @@ Modules
 
    network
    ui
+   graph
 
