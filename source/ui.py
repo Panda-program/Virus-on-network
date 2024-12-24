@@ -13,7 +13,7 @@ class UI:
             ("average-node-degree", 0, 50, False),
             ("initial-outbreak-size", 0, 350, False),
             ("virus-spread-chance", 0, 100, True),
-            ("virus-check-frequency", 1, 100, True),
+            ("virus-check-frequency", 1, 100, False),
             ("recovery-chance", 0, 100, True),
             ("gain-resistance-chance", 0, 100, True),
             ("Model speed", 0, 1000, False)
